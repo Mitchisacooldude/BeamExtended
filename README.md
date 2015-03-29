@@ -36,36 +36,7 @@ This extension will expand the use of Beam.pro from adding custom emotes, to eve
 ## Current fixes
 * More noticeable mentions!
 
-## Installation and Use (OUTDATED)
-
-To get the extension, first make sure your bookmark bar is visible!
-
-``ctrl+shift+b`` or ``cmd+shift+b`` in FF to show your bar
-
-``Right Click open space in URL bar and choose SHOW BOOKMARK BAR``
-
-### Create a new bookmark!
-
-Right Click your bar and choose `"Add Page"` or ``"Create Bookmark"``
-
-![Alt text](http://puu.sh/fIMML/98ee27d9e9.jpg)
-
-Add BeamExtended or BEX as the name and this copied exactly as the URL:
-
-``javascript:(function(){$.getScript('https://ec87d41a87dde68618f3f11fc9c3e4fde11820dc.googledrive.com/host/0B0aYi6iDIlBaSGxJNkFTeEhqMmM/contentscript.js');}());``
-
-![Alt text](http://puu.sh/fIMSH/a07a913943.png)
-
-Hit Save!
-
-Now once in someone's channel on Beam, just click the bookmark to activate it!
-
-![Alt text](http://puu.sh/fIN7V/b0c5df8fb8.jpg)
-
-![Alt text](http://puu.sh/fINb9/19b6b48f03.jpg)
-
-If you notice the extension isn't behaving as should, refresh the page and reactivate the bookmark. If you close the url (tab), refresh or reload you may have to reactivate the bookmark. :)
-
+#License
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without limitation of the rights to use, copy, modify, merge,
