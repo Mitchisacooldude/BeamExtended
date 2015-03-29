@@ -38,6 +38,94 @@ if (typeof BeamExtendedInstance != 'undefined') {
     BeamExtendedInstance.close();
 }
 
+//Working towards local storage rather than Chrome Storage
+/*
+    load: function () {
+        var parseSetting = function(value) {
+            if(value == null) {
+                return null;
+            } else if(value === "true") {
+                return true;
+            } else if(value === "false") {
+                return false;
+            } else if(value === "") {
+                return "";
+            } else if(isNaN(value) === false) {
+                return parseInt(value);
+            } else {
+                return value;
+            }
+        }
+        var settingsList = require('./settings.json');
+
+        settingsList.forEach(function(setting) {
+            vars.settings[setting.storageKey] = setting;
+            vars.settings[setting.storageKey].value = (parseSetting(bex.storage.get(bex.settings.prefix+setting.storageKey)) == null) ? setting.default : parseSetting(bex.storage.get(bex.settings.prefix+setting.storageKey));
+
+            if(setting.name) {
+                var settingHTML = settingTemplate(setting);
+                $('#bexSettings .options-list').append(settingHTML);
+                bex.settings.get(setting.storageKey) === true ? $('#'+setting.storageKey+'True').prop('checked', true) : $('#'+setting.storageKey+'False').prop('checked', true);
+            }
+
+            if(setting.hidden) {
+                $("#bexSettingsPanel .bexOption-"+setting.storageKey).css('display','none');
+                $("#bexSettingsPanel .bexOption-"+setting.storageKey).addClass('konami');
+            }
+
+            if(setting.load) {
+                setting.load();
+            }
+        });
+
+}
+bex.storage = {
+    exists: function(item) {
+        return (bex.storage.get(item) ? true : false);
+    },
+    get: function(item) {
+        return localStorage.getItem(item);
+    },
+    getArray: function(item) {
+        if(!bex.storage.exists(item)) bex.storage.putArray(item, []);
+        return JSON.parse(bex.storage.get(item));
+    },
+    getObject: function(item) {
+        if(!bex.storage.exists(item)) bex.storage.putObject(item, {});
+        return JSON.parse(bex.storage.get(item));
+    },
+    put: function(item, value) {
+        localStorage.setItem(item, value);
+    },
+    pushArray: function(item, value) {
+        var i = bex.storage.getArray(item);
+        i.push(value);
+        bex.storage.putArray(item, i);
+    },
+    pushObject: function(item, key, value) {
+        var i = bex.storage.getObject(item);
+        i[key] = value;
+        bex.storage.putObject(item, i);
+    },
+    putArray: function(item, value) {
+        bex.storage.put(item, JSON.stringify(value));
+    },
+    putObject: function(item, value) {
+        bex.storage.put(item, JSON.stringify(value));
+    },
+    spliceArray: function(item, value) {
+        var i = bex.storage.getArray(item);
+        if(i.indexOf(value) !== -1) i.splice(i.indexOf(value), 1);
+        bex.storage.putArray(item, i);
+    },
+    spliceObject: function(item, key) {
+        var i = bex.storage.getObject(item);
+        delete i[key];
+        bex.storage.putObject(item, i);
+    }
+}*/
+//End Cookie Setup
+
 BeamExtended = function() {
     var VERSION = '1.1.1';
     var COMMAND = ':'; // What is before a command?
