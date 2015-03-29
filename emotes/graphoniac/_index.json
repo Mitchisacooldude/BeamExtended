@@ -22,4 +22,17 @@
 }, {
     "emote": "tophat",
     "image_id": 7
+},{
+    "emote": "trollface",
+    "image_id": 8,
+    "image_ext": "jpg"
+},{
+    "emote": "graphhug",
+    "image_id": 9
+},{
+    "emote": "graphhat",
+    "image_id": "10"
+},{
+    "emote": "whack",
+    "image_id": "11"
 }]
