@@ -1,8 +1,14 @@
+# 03/30/2015
+* Got Rid of YUCKY Chrome Storage
+* More Emotes
+* Bug Fixes
+* Release of Beam-Extended on Firefox
+* Added more spin too Mappa
+
 # 03/25/2015
 * Fixed loading of BEx without having to force refresh
 * Fixed Welcome banner
 * Minor Bug Fixes
-
 
 # 03/22/2015
 * Added Chat Settings Tab
