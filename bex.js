@@ -1,5 +1,5 @@
 /** @license
- * Copyright (c) 2015 BExDevelopmentTeam
+ * Copyright (c) 2015 IFDevelopment
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,96 +38,27 @@ if (typeof BeamExtendedInstance != 'undefined') {
     BeamExtendedInstance.close();
 }
 
-//Working towards local storage rather than Chrome Storage
-/*
-    load: function () {
-        var parseSetting = function(value) {
-            if(value == null) {
-                return null;
-            } else if(value === "true") {
-                return true;
-            } else if(value === "false") {
-                return false;
-            } else if(value === "") {
-                return "";
-            } else if(isNaN(value) === false) {
-                return parseInt(value);
-            } else {
-                return value;
-            }
-        }
-        var settingsList = require('./settings.json');
-
-        settingsList.forEach(function(setting) {
-            vars.settings[setting.storageKey] = setting;
-            vars.settings[setting.storageKey].value = (parseSetting(bex.storage.get(bex.settings.prefix+setting.storageKey)) == null) ? setting.default : parseSetting(bex.storage.get(bex.settings.prefix+setting.storageKey));
-
-            if(setting.name) {
-                var settingHTML = settingTemplate(setting);
-                $('#bexSettings .options-list').append(settingHTML);
-                bex.settings.get(setting.storageKey) === true ? $('#'+setting.storageKey+'True').prop('checked', true) : $('#'+setting.storageKey+'False').prop('checked', true);
-            }
-
-            if(setting.hidden) {
-                $("#bexSettingsPanel .bexOption-"+setting.storageKey).css('display','none');
-                $("#bexSettingsPanel .bexOption-"+setting.storageKey).addClass('konami');
-            }
-
-            if(setting.load) {
-                setting.load();
-            }
-        });
-
-}
-bex.storage = {
-    exists: function(item) {
-        return (bex.storage.get(item) ? true : false);
-    },
-    get: function(item) {
-        return localStorage.getItem(item);
-    },
-    getArray: function(item) {
-        if(!bex.storage.exists(item)) bex.storage.putArray(item, []);
-        return JSON.parse(bex.storage.get(item));
-    },
-    getObject: function(item) {
-        if(!bex.storage.exists(item)) bex.storage.putObject(item, {});
-        return JSON.parse(bex.storage.get(item));
-    },
-    put: function(item, value) {
-        localStorage.setItem(item, value);
-    },
-    pushArray: function(item, value) {
-        var i = bex.storage.getArray(item);
-        i.push(value);
-        bex.storage.putArray(item, i);
-    },
-    pushObject: function(item, key, value) {
-        var i = bex.storage.getObject(item);
-        i[key] = value;
-        bex.storage.putObject(item, i);
-    },
-    putArray: function(item, value) {
-        bex.storage.put(item, JSON.stringify(value));
-    },
-    putObject: function(item, value) {
-        bex.storage.put(item, JSON.stringify(value));
-    },
-    spliceArray: function(item, value) {
-        var i = bex.storage.getArray(item);
-        if(i.indexOf(value) !== -1) i.splice(i.indexOf(value), 1);
-        bex.storage.putArray(item, i);
-    },
-    spliceObject: function(item, key) {
-        var i = bex.storage.getObject(item);
-        delete i[key];
-        bex.storage.putObject(item, i);
-    }
-}*/
-//End Cookie Setup
 
 BeamExtended = function() {
-    var VERSION = '1.1.1';
+
+    var bexoptions = {
+            twitchemotes: true,
+            linkimages: false,
+            usercolors: true,
+            twitchbadges: false,
+            bexbadges: false,
+            splitchat: false
+        };
+
+    //Localstorage
+    if (localStorage.getItem('bex') == null) {
+        localStorage.setItem('bex', JSON.stringify(bexoptions)); 
+    } else {
+        bexoptions = JSON.parse(localStorage.getItem('bex'));
+    }
+    //End Local Storage
+
+    var VERSION = '1.1.6';
     var COMMAND = ':'; // What is before a command?
 
     var twitchEmoteTemplate = '';
@@ -187,6 +118,23 @@ BeamExtended = function() {
     }
 
     styleChannel = GetStylesheet();
+
+    $("body").on("click", "chat-options input[data-bex]", function () {
+            var d = $(this).data("bex");
+            bexoptions[d] = $(this).prop("checked");
+
+            if (d == "bexbadges") {
+                $('.chat-dialog-menu-page.bexobj input[data-bex="twitchbadges"]').prop("checked", false);
+                bexoptions.twitchbadges = false;
+            }
+            else if (d == "twitchbadges") {
+                $('.chat-dialog-menu-page.bexobj input[data-bex="bexbadges"]').prop("checked", false);
+                bexoptions.bexbadges = false;
+            }
+
+            localStorage.setItem('bex', JSON.stringify(bexoptions));
+            console.log("Toggle State of: " + d);
+        });
 
     $('head').append('<link rel="stylesheet" href="https://exudev.ca/BeX/Dependencies/qtip.css" type="text/css" />');
 
@@ -637,6 +585,7 @@ BeamExtended = function() {
             section.find('.chat-dialog-menu-page.bexobj').hide();
         }
     });
+
 
     function onChatReceived(event) {
         var $this = $(event.target);
