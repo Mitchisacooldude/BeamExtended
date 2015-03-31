@@ -510,7 +510,7 @@ BeamExtended = function() {
 
     function createSettingsPage() {
         var opts = $("chat-options"); // Get the div
-        var parent = opts.find("div section"); // Find the section
+        var parent = opts.find("div"); // Find the section
         if (parent !== null) {
             // Add the navigation element for our page
             var nav = parent.find(".chat-dialog-menu ul");
@@ -531,6 +531,7 @@ BeamExtended = function() {
 
     $("chat-options").on("click", "li[data-apage]", function() {
         var num = $(this).data("apage");
+        console.log("On Click " + num);
 
         $(this).parent().find("li").removeClass("active");
         $(this).addClass("active");
@@ -540,7 +541,7 @@ BeamExtended = function() {
         // If our page doesn't exist, then re-add it.
         // We do this because the Beam system resets the syntax when their pages change.
         if ($(".chat-dialog-menu-page.bexobj").length === 0) {
-            var ourPage = '<div class="chat-dialog-menu-page ng-scope bexobj" data-bpage="Bex">' +
+            var ourPage = '<div class="chat-dialog-menu-page ng-scope bexobj" data-apage="Bex">' +
                 '<table class="table">' +
                 '<tbody>' +
                 '<tr>' +
