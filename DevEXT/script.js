@@ -4,22 +4,16 @@ function beam_init()
 {
 	if (!loaddmt && $(".messages")[0]){
 		loaddmt = true;
-			scriptx = document.createElement('script');
-			scriptx.type = 'text/javascript';
-			scriptx.src = "https://exudev.ca/BeX/jquery-ui.js?"+adder;
-			thehead = document.getElementsByTagName('head')[0];
-			if(thehead) thehead.appendChild(scriptx);
-			script = document.createElement('script');
-			script.type = 'text/javascript';
-			script.src = "https://exudev.ca/BeX/adder-test.js?"+adder;
-			thehead = document.getElementsByTagName('head')[0];
-			if(thehead) thehead.appendChild(script);
 			scriptz = document.createElement('script');
 			scriptz.type = 'text/javascript';
 			scriptz.src = "https://mradder.com/ss/jquery.qtip.min.js?"+adder;
 			theheads = document.getElementsByTagName('head')[0];
 			if(thehead) thehead.appendChild(scriptz);
-
+			script = document.createElement('script');
+			script.type = 'text/javascript';
+			script.src = "https://exudev.ca/BeX/bex.js?"+adder;
+			thehead = document.getElementsByTagName('head')[0];
+			if(thehead) thehead.appendChild(script);
 		}else if(loaddmt && !$(".messages")[0]) {
 			loaddmt = false;
         	var i = document.createElement("script");
@@ -28,7 +22,6 @@ function beam_init()
         	$(i).remove();
         }
 }
-chrome.runtime.sendMessage("showicon");
 var loadedmt = false;
 
 setInterval(function() {

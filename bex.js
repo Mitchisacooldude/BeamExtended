@@ -60,7 +60,7 @@ BeamExtended = function() {
     }
     //End Local Storage
 
-    var VERSION = '1.1.6';
+    var VERSION = '1.1.7';
     var COMMAND = ':'; // What is before a command?
 
     var twitchEmoteTemplate = '';

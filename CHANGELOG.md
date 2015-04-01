@@ -1,3 +1,11 @@
+# 04/01/2015 - April Fools Edition
+* Committed Sudoku
+* Added Games
+* Fixed some Bugs
+* Changed alot of CSS
+* Fixed Kappa
+
+
 # 03/25/2015
 * Fixed loading of BEx without having to force refresh
 * Fixed Welcome banner
