@@ -510,6 +510,28 @@ BeamExtended = function() {
 
 
     function createSettingsPage() {
+        function onChangeSetting(e) {
+            var setting =  $(e.target).attr('data-bex');
+
+            switch (setting) {
+                case 'bexbadges':
+                    if (bexoptions['twitchbadges']) {
+                        bexoptions['twitchbadges'] = false;
+                        $('input[data-bex="twitchbadges"]').removeAttr('checked');
+                    }
+                    break;
+                case 'twitchbadges':
+                    if (bexoptions['bexbadges']) {
+                        bexoptions['bexbadges'] = false;
+                        $('input[data-bex="bexbadges"]').removeAttr('checked');
+                    }
+                    break;
+            }
+
+            bexoptions[setting] = !bexoptions[setting];
+            localStorage.setItem('bex', JSON.stringify(bexoptions));
+        }
+
         $(this).parent().find(".chat-container").append(
             $('<div>').attr('id', 'bexSettings').append(
                 $('<table>').addClass('table').append(
@@ -524,7 +546,7 @@ BeamExtended = function() {
                                     $('<input>').attr({
                                         type: 'checkbox',
                                         'data-bex': 'twitchemotes'
-                                    })
+                                    }).change(onChangeSetting)
                                 )
                             )
                         )
@@ -539,7 +561,7 @@ BeamExtended = function() {
                                     $('<input>').attr({
                                         type: 'checkbox',
                                         'data-bex': 'usercolors'
-                                    })
+                                    }).change(onChangeSetting)
                                 )
                             )
                         )
@@ -554,7 +576,7 @@ BeamExtended = function() {
                                     $('<input>').attr({
                                         type: 'checkbox',
                                         'data-bex': 'bexbadges'
-                                    })
+                                    }).change(onChangeSetting)
                                 )
                             )
                         )
@@ -569,7 +591,7 @@ BeamExtended = function() {
                                     $('<input>').attr({
                                         type: 'checkbox',
                                         'data-bex': 'twitchbadges'
-                                    })
+                                    }).change(onChangeSetting)
                                 )
                             )
                         )
@@ -584,7 +606,7 @@ BeamExtended = function() {
                                     $('<input>').attr({
                                         type: 'checkbox',
                                         'data-bex': 'linkimages'
-                                    })
+                                    }).change(onChangeSetting)
                                 )
                             )
                         )
@@ -599,7 +621,7 @@ BeamExtended = function() {
                                     $('<input>').attr({
                                         type: 'checkbox',
                                         'data-bex': 'splitchat'
-                                    })
+                                    }).change(onChangeSetting)
                                 )
                             )
                         )
@@ -617,6 +639,13 @@ BeamExtended = function() {
                 }
             })
         );
+
+        for (var i in bexoptions) {
+            if (bexoptions[i]) {
+                $('input[data-bex="' + i + '"]').attr('checked', 'checked');
+            }
+        }
+
         //need to fix for settings too work
         /*for (opt in bexoptions) {
             $('.chat-dialog-menu-page.bexobj input[data-bex="' + opt + '"]').prop("checked", bexoptions[opt]);

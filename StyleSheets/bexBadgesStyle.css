@@ -14,9 +14,13 @@
     z-index: 999;
 }
 
-.ui-dialog {
+.ui-dialog .ui-widget .ui-widget-content .ui-corner-all .ui-front .ui-draggable .ui-resizable {
     z-index: 999;
-    background-color: black;
+    background-color: rgb(29, 32, 46);
+}
+
+.ui-dialog-titlebar .ui-widget-header {
+    background-color: rgb(23, 26, 36);
 }
 
 .chat-panel .message[data-role~="Admin"] {
