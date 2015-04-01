@@ -10,172 +10,133 @@
     }
 }
 
-#bexSettings {
-    z-index: 999;
-}
-
-.ui-dialog .ui-widget .ui-widget-content .ui-corner-all .ui-front .ui-draggable .ui-resizable {
-    z-index: 999;
-    background-color: rgb(29, 32, 46);
-}
-
-.ui-dialog-titlebar .ui-widget-header {
-    background-color: rgb(23, 26, 36);
-}
-
-.chat-panel .message[data-role~="Admin"] {
-    color: #B52535!important;
-    background: url('https://exudev.ca/BeX/BexBadges/admin.png') no-repeat;
+.chat-panel .message-role-Admin,
+.chat-panel .message-role-Developer,
+.chat-panel .message-role-Owner,
+.chat-panel .message-role-GMod,
+.chat-panel .message-role-Mod,
+.chat-panel .message-role-Premium {
+    padding-top: 8px;
     padding-left: 21px;
-    padding-top: 7.5px;
     background-size: 23px 23px;
+    background-repeat: no-repeat;
+    background-position: 0 8px;
     font-size: 15px;
-    background-position: 0px 8px;
     border-left: 3px solid transparent;
     border-right: 3px solid transparent;
+
 }
 
-.chat-panel .message[data-role=Developer] {
-    color: #ecbf37!important;
-    background: url('https://beam.pro/img/raccoon.png') no-repeat;
+.chat-panel .message-role-Admin {
+    color: #B52535 !important;
+    background-image: url('https://exudev.ca/BeX/BexBadges/admin.png');
+}
+
+.chat-panel .message-role-Developer {
+    color: #ecbf37 !important;
     padding-left: 11px;
-    padding-top: 7.5px;
     background-size: 18px 18px;
-    font-size: 15px;
-    background-position: 0px 8px;
-    border-left: 3px solid transparent;
-    border-right: 3px solid transparent;
+    background-image: url('https://beam.pro/img/raccoon.png');
 }
 
-.chat-panel .message[data-role=Developer] .message-author {
+.chat-panel .message-role-Developer .message-author {
     color: #ecbf37;
-    background: none!important;
-    background-size: none!important;
+    background: none !important;
+    background-size: none !important;
     padding-left: 11px;
-    background-position-x: none!important;
+    background-position-x: none !important;
     padding-right: 6px;
-    margin-right: 0px;
+    margin-right: 0;
 }
 
-.chat-panel .message[data-role~="Owner"] {
-    color: #FFFFFF!important;
-    background: url('https://exudev.ca/BeX/BexBadges/broad.png') no-repeat;
-    padding-left: 21px;
-    padding-top: 7.5px;
-    background-size: 23px 23px;
-    font-size: 15px;
-    background-position: 0px 8px;
+.chat-panel .message-role-Owner {
+    color: #FFFFFF !important;
+    background-image: url('https://exudev.ca/BeX/BexBadges/broad.png');
     border-left: 3px solid transparent;
     border-right: 3px solid transparent;
 }
 
-.chat-panel .message[data-role~="Gmod"] {
-    color: #37ED3B!important;
-    background: url('https://exudev.ca/BeX/BexBadges/gmod.png') no-repeat;
-    padding-left: 21px;
-    padding-top: 7.5px;
-    background-size: 23px 23px;
-    font-size: 15px;
-    background-position: 0px 8px;
-    border-left: 3px solid transparent;
-    border-right: 3px solid transparent;
+.chat-panel .message-role-GMod {
+    color: #37ED3B !important;
+    background-image: url('https://exudev.ca/BeX/BexBadges/gmod.png');
 }
 
-.chat-panel .message[data-role~="Mod"] {
-    color: #37ED3B!important;
-    background: url('https://exudev.ca/BeX/BexBadges/mod.png') no-repeat;
-    padding-left: 21px;
-    padding-top: 7.5px;
-    background-size: 23px 23px;
-    font-size: 15px;
-    background-position: 0px 8px;
-    border-left: 3px solid transparent;
-    border-right: 3px solid transparent;
+.chat-panel .message-role-Mod {
+    color: #37ED3B !important;
+    background-image: url('https://exudev.ca/BeX/BexBadges/mod.png');
 }
 
-.chat-panel .message[data-role~="Premium"] {
-    color: #c642ea!important;
-    background: url('https://exudev.ca/BeX/BexBadges/pro.png') no-repeat;
-    padding-left: 21px;
-    padding-top: 7.5px;
-    background-size: 23px 23px;
-    font-size: 15px;
-    background-position: 0px 8px;
-    border-left: 3px solid transparent;
-    border-right: 3px solid transparent;
+.chat-panel .message-role-Premium {
+    color: #c642ea !important;
+    background-image: url('https://exudev.ca/BeX/BexBadges/pro.png');
 }
 
-.chat-panel .message[data-role~="BExDev"] .message-author {
+.chat-panel .message-role-BExDev .message-author,
+.chat-panel .message-role-BExMusicVerified .message-author,
+.chat-panel .message-role-BExVerified .message-author,
+.chat-panel .message-role-BExPlayerDotMe .message-author,
+.chat-panel .message-role-BExFamilyStrong .message-author {
+    padding-left: 22px;
+    padding-bottom: 1px;
+    background-repeat: no-repeat;
+    background-position: -1px;
+}
+
+.chat-panel .message-role-BExDev .message-author {
     color: #00FFFF;
-    background: url('https://i.imgur.com/N4LsfN5.png') no-repeat;
-    padding-left: 22px;
-    padding-bottom: 1px;
-    background-position: -1px;
+    background-image: url('https://i.imgur.com/N4LsfN5.png');
 }
 
-.chat-panel .message[data-role~="BExMusicVerified"] .message-author {
+.chat-panel .message-role-BExMusicVerified .message-author {
     color: #9800FF;
-    background: url('https://exudev.ca/BeX/icons/MusicBadge.png') no-repeat;
-    padding-left: 22px;
-    padding-bottom: 1px;
-    background-position: -1px;
+    background-image: url('https://exudev.ca/BeX/icons/MusicBadge.png');
 }
 
-.chat-panel .message[data-role~="BExVerified"] .message-author {
+.chat-panel .message-role-BExVerified .message-author {
     color: #9800FF;
-    background: url('https://exudev.ca/BeX/icons/verified.png') no-repeat;
-    padding-left: 22px;
-    padding-bottom: 1px;
-    background-position: -1px;
+    background-image: url('https://exudev.ca/BeX/icons/verified.png');
 }
 
-.chat-panel .message[data-role~="BExPlayerDotMe"] .message-author {
+.chat-panel .message-role-BExPlayerDotMe .message-author {
     color: #f08;
-    background: url('https://exudev.ca/BeX/icons/player-logo.png') no-repeat;
-    padding-left: 22px;
-    padding-bottom: 1px;
-    background-position: -1px;
+    background-image: url('https://exudev.ca/BeX/icons/player-logo.png');
 }
 
-.chat-panel .message[data-role~="BExFamilyStrong"] .message-author {
+.chat-panel .message-role-BExFamilyStrong .message-author {
     color: #f08;
-    background: url('https://exudev.ca/BeX/icons/fs-logo.png') no-repeat;
-    padding-left: 22px;
-    padding-bottom: 1px;
-    background-position: -1px;
+    background-image: url('https://exudev.ca/BeX/icons/fs-logo.png');
 }
 
 .chat-panel .message[data-role~="ExuMessage"] {
     border-right: 3px solid #0003FF;
     border-left: 3px solid #0003FF;
     background: -webkit-linear-gradient(left, rgba(0, 52, 255, 0.3) 0%, rgba(0, 32, 255, 0.1) 7%, rgba(0, 42, 255, 0.1) 95%, rgba(0, 78, 247, 0.3) 100%);
+    background: -moz-linear-gradient(left, rgba(0, 52, 255, 0.3) 0%, rgba(0, 32, 255, 0.1) 7%, rgba(0, 42, 255, 0.1) 95%, rgba(0, 78, 247, 0.3) 100%);
     background: linear-gradient(left, rgba(0, 52, 255, 0.3) 0%, rgba(0, 32, 255, 0.1) 7%, rgba(0, 42, 255, 0.1) 95%, rgba(0, 78, 247, 0.3) 100%);
     text-align: center;
 }
 
-.chat-panel .message[data-role~="BExDonator"] .message-author {
+.chat-panel .message-role-BExDonator .message-author {
     color: #FFFFFF;
-    text-shadow: 0px 0px 13px rgba(255, 255, 255, 1);
+    text-shadow: 0 0 13px rgba(255, 255, 255, 1);
     display: inline;
     position: relative;
 }
 
-.chat-panel .message[data-role~="BExBot"] .message-author {
-    background: url('https://i.imgur.com/ddVOAAS.png') no-repeat;
+.chat-panel .message-role-BExBot .message-author {
     color: #FF0000 !important;
     padding-left: 22px;
     padding-bottom: 1px;
-    background-position: -1px;
+    background: url('https://i.imgur.com/ddVOAAS.png') no-repeat -1px;
 }
 
-.chat-panel .message[data-role~="BExTSSN"] .message-author {
-    background: url('https://exudev.ca/BeX/tssn.png') no-repeat;
+.chat-panel .message-role-BExTSSN .message-author {
     padding-left: 22px;
     padding-bottom: 1px;
-    background-position: -1px;
+    background: url('https://exudev.ca/BeX/tssn.png') no-repeat -1px;
 }
 
-.chat-panel .message[data-role~="TheBExBot"] .message-body {
+.chat-panel .message-role-TheBExBot .message-body {
     color: #FF0000 !important;
 }
 
@@ -191,8 +152,8 @@
     bottom: inherit;
     right: 10px;
     z-index: 100;
-    box-shadow: none!important;
-    border: none!important;
+    box-shadow: none !important;
+    border: none !important;
     transition: .3s all ease;
     transition: all .3s all ease ease;
 }
@@ -224,128 +185,34 @@
     font-weight: 700;
     background-color: rgba(121, 0, 0, 0.35)
 }
-.chat-panel .message[data-role~="BExDev"] .message-author:hover:after {
-    background: #333;
-    background: rgba(0,0,0,.8);
-    border-radius: 5px;
-    bottom: 26px;
-    color: #fff;
-    content: 'BEx Developer';
-    left: 20%;
-    padding: 5px 13px;
-    position: absolute;
-    z-index: 98;
-    width: 128px;
-    -webkit-animation: ToolTip 0.2s;
-    -moz-animation:    ToolTip 0.2s;
-    -o-animation:      TollTip 0.2s;
-    animation:         ToolTip 0.2s;
+
+.chat-panel .message-role-BExDev .message-author .message-tooltip:before {
+    content: 'BEx Developer, ';
 }
 
-.chat-panel .message[data-role~="BExPlayerDotMe"] .message-author:hover:after {
-    background: #333;
-    background: rgba(0,0,0,.8);
-    border-radius: 5px;
-    bottom: 26px;
-    color: #fff;
-    content: 'Player.me Staff';
-    left: 20%;
-    padding: 5px 13px;
-    position: absolute;
-    z-index: 98;
-    width: 130px;
-    -webkit-animation: ToolTip 0.2s;
-    -moz-animation:    ToolTip 0.2s;
-    -o-animation:      TollTip 0.2s;
-    animation:         ToolTip 0.2s;
+.chat-panel .message-role-BExPlayerDotMe .message-author .message-tooltip:before {
+    content: 'Player.me Staff, ';
 }
 
-.chat-panel .message[data-role~="BExFamilyStrong"] .message-author:hover:after {
-    background: #333;
-    background: rgba(0,0,0,.8);
-    border-radius: 5px;
-    bottom: 26px;
-    color: #fff;
-    content: 'Family Strong Member';
-    left: 20%;
-    padding: 5px 13px;
-    position: absolute;
-    z-index: 98;
-    width: 184px;
-    -webkit-animation: ToolTip 0.2s;
-    -moz-animation:    ToolTip 0.2s;
-    -o-animation:      TollTip 0.2s;
-    animation:         ToolTip 0.2s;
-}
-.chat-panel .message[data-role~="BExMusicVerified"] .message-author:hover:after {
-    background: #333;
-    background: rgba(0,0,0,.8);
-    border-radius: 5px;
-    bottom: 26px;
-    color: #fff;
-    content: 'Verified Music Producer';
-    left: 20%;
-    padding: 5px 13px;
-    position: absolute;
-    z-index: 98;
-    width: 191px;
-    -webkit-animation: ToolTip 0.2s;
-    -moz-animation:    ToolTip 0.2s;
-    -o-animation:      TollTip 0.2s;
-    animation:         ToolTip 0.2s;
-}
-.chat-panel .message[data-role~="BExVerified"] .message-author:hover:after {
-    background: #333;
-    background: rgba(0,0,0,.8);
-    border-radius: 5px;
-    bottom: 26px;
-    color: #fff;
-    content: 'Verified';
-    left: 20%;
-    padding: 5px 13px;
-    position: absolute;
-    z-index: 98;
-    width: 80px;
-    -webkit-animation: ToolTip 0.2s;
-    -moz-animation:    ToolTip 0.2s;
-    -o-animation:      TollTip 0.2s;
-    animation:         ToolTip 0.2s;
-}
-.chat-panel .message[data-role~="BExBot"] .message-author:hover:after {
-    background: #333;
-    background: rgba(0,0,0,.8);
-    border-radius: 5px;
-    bottom: 26px;
-    color: #fff;
-    content: 'Robot';
-    left: 20%;
-    padding: 5px 13px;
-    position: absolute;
-    z-index: 98;
-    width: 68px;
-    -webkit-animation: ToolTip 0.2s;
-    -moz-animation:    ToolTip 0.2s;
-    -o-animation:      TollTip 0.2s;
-    animation:         ToolTip 0.2s;
-}
-.chat-panel .message[data-role~="BExTSSN"] .message-author:hover:after {
-    background: #333;
-    background: rgba(0,0,0,.8);
-    border-radius: 5px;
-    bottom: 26px;
-    color: #fff;
-    content: 'TSSN Member';
-    left: 20%;
-    padding: 5px 13px;
-    position: absolute;
-    z-index: 98;
-    width: 126px;
-    -webkit-animation: ToolTip 0.2s;
-    -moz-animation:    ToolTip 0.2s;
-    -o-animation:      TollTip 0.2s;
-    animation:         ToolTip 0.2s;
+.chat-panel .message-role-BExFamilyStrong .message-author .message-tooltip:before {
+    content: 'Family Strong Member, ';
 }
 
+.chat-panel .message-role-BExMusicVerified .message-author .message-tooltip:before {
+    content: 'Verified Music Producer, ';
+}
+
+.chat-panel .message-role-BExVerified .message-author .message-tooltip:before {
+    content: 'Verified, ';
+}
+
+.chat-panel .message-role-BExBot .message-author .message-tooltip:before {
+    content: 'Robot, ';
+}
+
+.chat-panel .message-role-BExTSSN .message-author .message-tooltip:before {
+    content: 'TSSN Member, ';
+}
 
 .qtip {
     -moz-border-radius: 2px;
