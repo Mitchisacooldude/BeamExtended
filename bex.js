@@ -31,7 +31,7 @@
  *  Free to modify for personal use
  *  Need permission to distribute the code
  *  Can't sell addon or features of the addon
-
+ 
  */
 var BeamExtendedInstance;
 if (typeof BeamExtendedInstance != 'undefined') {
@@ -40,19 +40,18 @@ if (typeof BeamExtendedInstance != 'undefined') {
 
 
 BeamExtended = function() {
-
     var bexoptions = {
-            twitchemotes: true,
-            linkimages: false,
-            usercolors: true,
-            twitchbadges: false,
-            bexbadges: false,
-            splitchat: false
-        };
+        twitchemotes: true,
+        linkimages: false,
+        usercolors: true,
+        twitchbadges: false,
+        bexbadges: false,
+        splitchat: false
+    };
 
     //Localstorage
     if (localStorage.getItem('bex') == null) {
-        localStorage.setItem('bex', JSON.stringify(bexoptions)); 
+        localStorage.setItem('bex', JSON.stringify(bexoptions));
     } else {
         bexoptions = JSON.parse(localStorage.getItem('bex'));
     }
@@ -119,22 +118,21 @@ BeamExtended = function() {
 
     styleChannel = GetStylesheet();
 
-    $("body").on("click", "chat-options input[data-bex]", function () {
-            var d = $(this).data("bex");
-            bexoptions[d] = $(this).prop("checked");
+    $("body").on("click", "chat-options input[data-bex]", function() {
+        var d = $(this).data("bex");
+        bexoptions[d] = $(this).prop("checked");
 
-            if (d == "bexbadges") {
-                $('.chat-dialog-menu-page.bexobj input[data-bex="twitchbadges"]').prop("checked", false);
-                bexoptions.twitchbadges = false;
-            }
-            else if (d == "twitchbadges") {
-                $('.chat-dialog-menu-page.bexobj input[data-bex="bexbadges"]').prop("checked", false);
-                bexoptions.bexbadges = false;
-            }
+        if (d == "bexbadges") {
+            $('.chat-dialog-menu-page.bexobj input[data-bex="twitchbadges"]').prop("checked", false);
+            bexoptions.twitchbadges = false;
+        } else if (d == "twitchbadges") {
+            $('.chat-dialog-menu-page.bexobj input[data-bex="bexbadges"]').prop("checked", false);
+            bexoptions.bexbadges = false;
+        }
 
-            localStorage.setItem('bex', JSON.stringify(bexoptions));
-            console.log("Toggle State of: " + d);
-        });
+        localStorage.setItem('bex', JSON.stringify(bexoptions));
+        console.log("Toggle State of: " + d);
+    });
 
     $('head').append('<link rel="stylesheet" href="https://exudev.ca/BeX/Dependencies/qtip.css" type="text/css" />');
 
@@ -316,11 +314,11 @@ BeamExtended = function() {
             if (channel == 'exuviax') {
                 $messages.append(
                     $('<div>')
-                        .addClass('message')
-                        .attr('data-role', 'ExuMessage').append(
+                    .addClass('message')
+                    .attr('data-role', 'ExuMessage').append(
                         $('<div>')
-                            .addClass('message-body')
-                            .html('Hey, I help create/maintain <a href="https://github.com/ExuDev/BeamExtended" target="_blank">Beam Extended</a> v' + VERSION + '!<br> To see all my channel emotes and bot commands, go <a href="http://beamalerts.com/bex/exuviax" target="_blank"> here</a>')
+                        .addClass('message-body')
+                        .html('Hey, I help create/maintain <a href="https://github.com/ExuDev/BeamExtended" target="_blank">Beam Extended</a> v' + VERSION + '!<br> To see all my channel emotes and bot commands, go <a href="http://beamalerts.com/bex/exuviax" target="_blank"> here</a>')
                     )
                 );
 
@@ -341,8 +339,8 @@ BeamExtended = function() {
 
                 $messages.append(
                     $('<div>')
-                        .addClass('message')
-                        .attr('data-role', 'ExuMessage').append(
+                    .addClass('message')
+                    .attr('data-role', 'ExuMessage').append(
                         $message
                     )
                 );
@@ -354,11 +352,11 @@ BeamExtended = function() {
         } else {
             $messages.append(
                 $('<div>')
-                    .addClass('message')
-                    .attr('data-role', 'ExuMessage').append(
+                .addClass('message')
+                .attr('data-role', 'ExuMessage').append(
                     $('<div>')
-                        .addClass('message-body')
-                        .html('<a href="https://github.com/ExuDev/BeamExtended" target="_blank">Beam Extended loaded</a> v' + VERSION + '<br> Request custom emotes for your channel <a href=\"http://beamalerts.com/bex/\" target=\"_blank\"> here</a>')
+                    .addClass('message-body')
+                    .html('<a href="https://github.com/ExuDev/BeamExtended" target="_blank">Beam Extended loaded</a> v' + VERSION + '<br> Request custom emotes for your channel <a href=\"http://beamalerts.com/bex/\" target=\"_blank\"> here</a>')
                 )
             );
 
@@ -453,7 +451,9 @@ BeamExtended = function() {
 
                 if (hasEmotes) {
                     $messageBody.find('[bex-tooltip!=""]').qtip({ // Grab all elements with a non-blank data-tooltip attr.
-                        style: { classes: 'qtip' },
+                        style: {
+                            classes: 'qtip'
+                        },
                         content: {
                             attr: 'bex-tooltip' // Tell qTip2 to look inside this attr for its content
                         }
@@ -508,84 +508,207 @@ BeamExtended = function() {
         }
     });
 
+
     function createSettingsPage() {
-        var opts = $("chat-options"); // Get the div
-        var parent = opts.find("div"); // Find the section
-        if (parent !== null) {
-            // Add the navigation element for our page
-            var nav = parent.find(".chat-dialog-menu ul");
-            nav.find("li").attr("data-apage", "0"); // Add them to my logic
-            nav.append('<li class="" data-apage="Bex"><a href="#">Bex Settings</a></li>');
-        }
+        $(this).parent().find(".chat-container").append(
+            $('<div>').attr('id', 'bexSettings').append(
+                $('<table>').addClass('table').append(
+                    $('<tbody>').append(
+                        $('<tr>').append(
+                            $('<td>').addClass('col-xs-6').append(
+                                $('<label>').text('Twitch Emotes')
+                            )
+                        ).append(
+                            $('<td>').append(
+                                $('<label>').addClass('checkbox-fancy').append(
+                                    $('<input>').attr({
+                                        type: 'checkbox',
+                                        'data-bex': 'twitchemotes'
+                                    })
+                                )
+                            )
+                        )
+                    ).append(
+                        $('<tr>').append(
+                            $('<td>').addClass('col-xs-6').append(
+                                $('<label>').text('Username Colors')
+                            )
+                        ).append(
+                            $('<td>').append(
+                                $('<label>').addClass('checkbox-fancy').append(
+                                    $('<input>').attr({
+                                        type: 'checkbox',
+                                        'data-bex': 'usercolors'
+                                    })
+                                )
+                            )
+                        )
+                    ).append(
+                        $('<tr>').append(
+                            $('<td>').addClass('col-xs-6').append(
+                                $('<label>').text('Use BEx Badges')
+                            )
+                        ).append(
+                            $('<td>').append(
+                                $('<label>').addClass('checkbox-fancy').append(
+                                    $('<input>').attr({
+                                        type: 'checkbox',
+                                        'data-bex': 'bexbadges'
+                                    })
+                                )
+                            )
+                        )
+                    ).append(
+                        $('<tr>').append(
+                            $('<td>').addClass('col-xs-6').append(
+                                $('<label>').text('Use Twitch Badges')
+                            )
+                        ).append(
+                            $('<td>').append(
+                                $('<label>').addClass('checkbox-fancy').append(
+                                    $('<input>').attr({
+                                        type: 'checkbox',
+                                        'data-bex': 'twitchbadges'
+                                    })
+                                )
+                            )
+                        )
+                    ).append(
+                        $('<tr>').append(
+                            $('<td>').addClass('col-xs-6').append(
+                                $('<label>').text('Chat Images')
+                            )
+                        ).append(
+                            $('<td>').append(
+                                $('<label>').addClass('checkbox-fancy').append(
+                                    $('<input>').attr({
+                                        type: 'checkbox',
+                                        'data-bex': 'linkimages'
+                                    })
+                                )
+                            )
+                        )
+                    ).append(
+                        $('<tr>').append(
+                            $('<td>').addClass('col-xs-6').append(
+                                $('<label>').text('SplitChat')
+                            )
+                        ).append(
+                            $('<td>').append(
+                                $('<label>').addClass('checkbox-fancy').append(
+                                    $('<input>').attr({
+                                        type: 'checkbox',
+                                        'data-bex': 'splitchat'
+                                    })
+                                )
+                            )
+                        )
+                    )
+                )
+            ).dialog({
+                autoOpen: false,
+                show: {
+                    effect: "blind",
+                    duration: 1000
+                },
+                hide: {
+                    effect: "explode",
+                    duration: 1000
+                }
+            })
+        );
+
+        $('.message-actions').find('.list-inline').append(
+            $('<li>').append('<a class="pull-left btn btn-link icon icon-menu">').click(function() {
+                $('#bexSettings').dialog('open');
+            })
+        );
     }
+   
+    setInterval(function() {
+        if (jQuery.fn.dialog != null && $(".message-actions .icon-menu").length < 1) {
+            createSettingsPage();
+        }
+    }, 2000);
 
-    // Selector is a bit annoying, but I can't see a better more reliable one to use.
-    $(".message-actions .icon-equalizer").click(function() {
-        createSettingsPage();
-    });
 
-    //$("chat-options").on("click", "input[data-bex]", function() {
-    //    // TEMPORARY FOR TESTING PURPOSES
-    //    console.log("Toggle State of: " + $(this).data("bex"));
-    //});
-
-    $("chat-options").on("click", "li[data-apage]", function() {
-        var num = $(this).data("apage");
-        console.log("On Click " + num);
-
-        $(this).parent().find("li").removeClass("active");
-        $(this).addClass("active");
-
-        var section = $(this).parent().parent().parent();
-
-        // If our page doesn't exist, then re-add it.
-        // We do this because the Beam system resets the syntax when their pages change.
-        if ($(".chat-dialog-menu-page.bexobj").length === 0) {
-            var ourPage = '<div class="chat-dialog-menu-page ng-scope bexobj" data-apage="Bex">' +
-                '<table class="table">' +
-                '<tbody>' +
-                '<tr>' +
-                '<td class="col-xs-6"><label>Twitch Emotes</label></td>' +
-                '<td><label class="checkbox-fancy"><input type="checkbox" data-bex="twitchemotes" class="ng-pristine ng-untouched ng-valid"></label></td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td class="col-xs-6"><label>Username Colors</label></td>' +
-                '<td><label class="checkbox-fancy"><input type="checkbox" data-bex="usercolors" class="ng-pristine ng-untouched ng-valid"></label></td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td class="col-xs-6"><label>Use BEx Badges</label></td>' +
-                '<td><label class="checkbox-fancy"><input type="checkbox" data-bex="bexbadges" class="ng-pristine ng-untouched ng-valid"></label></td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td class="col-xs-6"><label>Use Twitch Badges</label></td>' +
-                '<td><label class="checkbox-fancy"><input type="checkbox" data-bex="twitchbadges" class="ng-pristine ng-untouched ng-valid"></label></td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td class="col-xs-6"><label>Chat Images</label></td>' +
-                '<td><label class="checkbox-fancy"><input type="checkbox" data-bex="linkimages" class="ng-pristine ng-untouched ng-valid"></label></td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td class="col-xs-6"><label>SplitChat</label></td>' +
-                '<td><label class="checkbox-fancy"><input type="checkbox" data-bex="splitchat" class="ng-pristine ng-untouched ng-valid"></label></td>' +
-                '</tr>' +
-                '</tbody>' +
-                '</table>' +
-                '</div>';
-            section.find(".chat-dialog-menu-page").after(ourPage);
-
-            for (opt in bexoptions) {
-                $('.chat-dialog-menu-page.bexobj input[data-bex="' + opt + '"]').prop("checked", bexoptions[opt]);
+    /*        var opts = $(".message-actions"); // Get the div
+            var parent = opts.find("ul"); // Find the section
+            if (parent !== null) {
+                // Add the navigation element for our page
+                nav = parent.find(".list-inline");
+                nav.find("li"); // Add them to my logic
+                nav.append('<li><a class="pull-left btn btn-link icon icon-eye ng-scope" data-title="BEx Settings" data-placement="bottom" ></a></li>');
             }
         }
 
-        if (num == "Bex") {
-            section.find(".chat-dialog-menu-page").hide();
-            section.find('.chat-dialog-menu-page.bexobj').show();
-        } else {
-            section.find(".chat-dialog-menu-page").show();
-            section.find('.chat-dialog-menu-page.bexobj').hide();
-        }
-    });
+        // Selector is a bit annoying, but I can't see a better more reliable one to use.
+        $(".message-actions .icon-cogs").click(function() {
+            createSettingsPage();
+        });
+
+        //$("chat-options").on("click", "input[data-bex]", function() {
+        //    // TEMPORARY FOR TESTING PURPOSES
+        //    console.log("Toggle State of: " + $(this).data("bex"));
+        //});
+        
+        $("chat-options").on("click", "li[data-apage]", function() {
+            var num = $(this).data("apage");
+            console.log("On Click " + num);
+
+            $(this).parent().find("li").removeClass("active");
+            $(this).addClass("active");
+
+            var section = $(this).parent().parent().parent();
+
+            // If our page doesn't exist, then re-add it.
+            // We do this because the Beam system resets the syntax when their pages change.
+            if ($(".chat-dialog-menu-page.bexobj").length === 0) {
+                var ourPage = '<div class="chat-dialog-menu-page ng-scope bexobj" data-apage="Bex">' +
+                    '<table class="table">' +
+                    '<tbody>' +
+                    '<tr>' +
+                    '<td class="col-xs-6"><label>Twitch Emotes</label></td>' +
+                    '<td><label class="checkbox-fancy"><input type="checkbox" data-bex="twitchemotes" class="ng-pristine ng-untouched ng-valid"></label></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td class="col-xs-6"><label>Username Colors</label></td>' +
+                    '<td><label class="checkbox-fancy"><input type="checkbox" data-bex="usercolors" class="ng-pristine ng-untouched ng-valid"></label></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td class="col-xs-6"><label>Use BEx Badges</label></td>' +
+                    '<td><label class="checkbox-fancy"><input type="checkbox" data-bex="bexbadges" class="ng-pristine ng-untouched ng-valid"></label></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td class="col-xs-6"><label>Use Twitch Badges</label></td>' +
+                    '<td><label class="checkbox-fancy"><input type="checkbox" data-bex="twitchbadges" class="ng-pristine ng-untouched ng-valid"></label></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td class="col-xs-6"><label>Chat Images</label></td>' +
+                    '<td><label class="checkbox-fancy"><input type="checkbox" data-bex="linkimages" class="ng-pristine ng-untouched ng-valid"></label></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td class="col-xs-6"><label>SplitChat</label></td>' +
+                    '<td><label class="checkbox-fancy"><input type="checkbox" data-bex="splitchat" class="ng-pristine ng-untouched ng-valid"></label></td>' +
+                    '</tr>' +
+                    '</tbody>' +
+                    '</table>' +
+                    '</div>';
+                section.find(".chat-dialog-menu-page").after(ourPage);
+
+                for (opt in bexoptions) {
+                    $('.chat-dialog-menu-page.bexobj input[data-bex="' + opt + '"]').prop("checked", bexoptions[opt]);
+                }
+            }
+
+            if (num == "Bex") {
+                section.find(".chat-dialog-menu-page").hide();
+                section.find('.chat-dialog-menu-page.bexobj').show();
+            } else {
+                section.find(".chat-dialog-menu-page").show();
+                section.find('.chat-dialog-menu-page.bexobj').hide();
+            }
+        });*/
 
 
     function onChatReceived(event) {
@@ -659,11 +782,11 @@ BeamExtended = function() {
                 if (triggeredAlerts.indexOf(systemAlert[i]) > -1) continue;
                 $messages.append(
                     $('<div>')
-                        .addClass('message')
-                        .attr('data-role', 'ExuMessage').append(
+                    .addClass('message')
+                    .attr('data-role', 'ExuMessage').append(
                         $('<div>')
-                            .addClass('message-body')
-                            .html('<b>Beam Extended Alert</b><br>' + systemAlert[i])
+                        .addClass('message-body')
+                        .html('<b>Beam Extended Alert</b><br>' + systemAlert[i])
                     ));
                 triggeredAlerts.push(systemAlert[i]);
             }
@@ -678,6 +801,8 @@ BeamExtended = function() {
     this.close = function() {
         $messages.off('DOMNodeInserted', onChatReceived);
         $cssLink.remove();
+        $('#bexSettings').remove();
+        $('.message-actions').find('.icon-menu').remove();
         clearTimeout(timeoutAlertChecker);
         clearTimeout(timeoutColorGetter);
         BeamExtendedInstance = undefined;
@@ -685,7 +810,6 @@ BeamExtended = function() {
 
     return this;
 };
-
 
 (function() {
     function checker() {
