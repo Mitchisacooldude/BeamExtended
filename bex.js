@@ -617,6 +617,10 @@ BeamExtended = function() {
                 }
             })
         );
+        //need to fix for settings too work
+        /*for (opt in bexoptions) {
+            $('.chat-dialog-menu-page.bexobj input[data-bex="' + opt + '"]').prop("checked", bexoptions[opt]);
+        }*/
 
         $('.message-actions').find('.list-inline').append(
             $('<li>').append('<a class="pull-left btn btn-link icon icon-menu">').click(function() {

@@ -10,6 +10,15 @@
     }
 }
 
+#bexSettings {
+    z-index: 999;
+}
+
+.ui-dialog {
+    z-index: 999;
+    background-color: black;
+}
+
 .chat-panel .message[data-role~="Admin"] {
     color: #B52535!important;
     border-right: 3px solid transparent;

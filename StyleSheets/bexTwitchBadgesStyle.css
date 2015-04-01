@@ -10,6 +10,15 @@
     }
 }
 
+#bexSettings {
+    z-index: 999;
+}
+
+.ui-dialog {
+    z-index: 999;
+    background-color: black;
+}
+
 .message-role-Admin {
     color: #B52535!important;
     background: url('https://exudev.ca/BeX/Twitchbadges/admin.png') no-repeat;
