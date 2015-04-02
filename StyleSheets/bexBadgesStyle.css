@@ -29,14 +29,14 @@
 
 .chat-panel .message-role-Admin {
     color: #B52535 !important;
-    background-image: url('https://exudev.ca/BeX/BexBadges/admin.png');
+    background-image: url('https://exudev.ca/BeX/BexBadges/admin.png') !important;
 }
 
 .chat-panel .message-role-Developer {
     color: #ecbf37 !important;
     padding-left: 11px;
     background-size: 18px 18px;
-    background-image: url('https://beam.pro/img/raccoon.png');
+    background-image: url('https://beam.pro/img/raccoon.png') !important;
 }
 
 .chat-panel .message-role-Developer .message-author {
@@ -51,7 +51,7 @@
 
 .chat-panel .message-role-Owner {
     color: #FFFFFF !important;
-    background-image: url('https://exudev.ca/BeX/BexBadges/broad.png');
+    background-image: url('https://exudev.ca/BeX/BexBadges/broad.png') !important;
     border-left: 3px solid transparent;
     border-right: 3px solid transparent;
 }
@@ -63,7 +63,7 @@
 
 .chat-panel .message-role-Mod {
     color: #37ED3B !important;
-    background-image: url('https://exudev.ca/BeX/BexBadges/mod.png');
+    background-image: url('https://exudev.ca/BeX/BexBadges/mod.png') !important;
 }
 
 .chat-panel .message-role-Premium {
