@@ -43,24 +43,7 @@ $.fn.ignore = function(sel) {
 };
 
 BeamExtended = function() {
-    var bexoptions = {
-        twitchemotes: true,
-        linkimages: false,
-        usercolors: true,
-        twitchbadges: false,
-        bexbadges: false,
-        splitchat: false
-    };
-
-    //Localstorage
-    if (localStorage.getItem('bex') == null) {
-        localStorage.setItem('bex', JSON.stringify(bexoptions));
-    } else {
-        bexoptions = JSON.parse(localStorage.getItem('bex'));
-    }
-    //End Local Storage
-
-    var VERSION = '1.1.7';
+    var VERSION = '1.2.0';
     var COMMAND = ':'; // What is before a command?
 
     var twitchEmoteTemplate = '';
@@ -74,6 +57,22 @@ BeamExtended = function() {
     var customChannelEmotes = [];
 
     var $bexOptions;
+    var bexoptions = {
+        twitchemotes: true,
+        linkimages: false,
+        usercolors: true,
+        twitchbadges: false,
+        bexbadges: false,
+        splitchat: false
+    };
+
+    //region Localstorage
+    if (localStorage.getItem('bex') == null) {
+        localStorage.setItem('bex', JSON.stringify(bexoptions));
+    } else {
+        bexoptions = JSON.parse(localStorage.getItem('bex'));
+    }
+    //endregion Local Storage
 
     var roles = {};
     var colors = {};
@@ -85,6 +84,9 @@ BeamExtended = function() {
 
     var styleChannel = 'style';
 
+    var $rootMeta = $('meta[name="bex-root-url"]');
+    var rootURL = $rootMeta.length > 0 ? $rootMeta.attr('content') : 'https://exudev.ca/BEx/';
+
     var pathname = window.location.pathname;
     var channel = pathname.toLowerCase().replace("/", "");
 
@@ -94,45 +96,40 @@ BeamExtended = function() {
      */
     function GetStylesheet() {
         if (bexoptions.bexbadges === true) {
-            return 'bexBadgesStyle';
+            return 'bexBadges.style';
 
         } else if (bexoptions.twitchbadges === true) {
-            return 'bexTwitchBadgesStyle';
+            return 'twitchBadges.style';
 
         } else {
-            return 'bexStyle';
+            return 'style';
 
         }
     }
 
     styleChannel = GetStylesheet();
 
-    $('head').append('<link rel="stylesheet" href="https://exudev.ca/BeX/Dependencies/qtip.css" type="text/css" />');
+    $('head').append('<link rel="stylesheet" href="' + rootURL + 'Dependencies/qtip.css" type="text/css" />');
 
     setInterval(function() {
-        var bexBadgesLoaded = $("link[href^='https://exudev.ca/BeX/StyleSheets/bexBadgesStyle.css?']").length > 0;
-        var twitchBadgesLoaded = $("link[href^='https://exudev.ca/BeX/StyleSheets/bexTwitchBadgesStyle.css?']").length > 0;
-        if (bexoptions.bexbadges === true && styleChannel != 'bexBadgesStyle' && !bexBadgesLoaded) {
+        var bexBadgesLoaded = $("link[href^='" + rootURL + "css/bexBadges.style.css?']").length > 0;
+        var twitchBadgesLoaded = $("link[href^='" + rootURL + "css/twitchBadges.style.css?']").length > 0;
+
+        if (bexoptions.bexbadges === true && styleChannel != 'bexBadges.style' && !bexBadgesLoaded ||
+            bexoptions.bexbadges === false && styleChannel == 'bexBadges.style' && bexBadgesLoaded ||
+            bexoptions.twitchbadges === true && styleChannel != 'twitchBadges.style' && !twitchBadgesLoaded ||
+            bexoptions.twitchbadges === false && styleChannel == 'twitchBadges.style' && twitchBadgesLoaded) {
             styleChannel = GetStylesheet();
-            $cssLink.attr('href', 'https://exudev.ca/BeX/StyleSheets/' + styleChannel + '.css?');
-        } else if (bexoptions.bexbadges === false && styleChannel == 'bexBadgesStyle' && bexBadgesLoaded) {
-            styleChannel = GetStylesheet();
-            $cssLink.attr('href', 'https://exudev.ca/BeX/StyleSheets/' + styleChannel + '.css?');
-        } else if (bexoptions.twitchbadges === true && styleChannel != 'bexTwitchBadgesStyle' && !twitchBadgesLoaded) {
-            styleChannel = GetStylesheet();
-            $cssLink.attr('href', 'https://exudev.ca/BeX/StyleSheets/' + styleChannel + '.css?');
-        } else if (bexoptions.twitchbadges === false && styleChannel == 'bexTwitchBadgesStyle' && twitchBadgesLoaded) {
-            styleChannel = GetStylesheet();
-            $cssLink.attr('href', 'https://exudev.ca/BeX/StyleSheets/' + styleChannel + '.css?');
+            $cssLink.attr('href', rootURL + 'css/' + styleChannel + '.css?');
         }
     }, 1000);
 
     setInterval(function() {
-        var isSplitChatLoaded = $("link[href='https://exudev.ca/BeX/StyleSheets/splitchat.css']").length > 0;
+        var isSplitChatLoaded = $("link[href='" + rootURL + "css/splitchat.css']").length > 0;
         if (bexoptions.splitchat === true && !isSplitChatLoaded) {
-            $('head').append('<link rel="stylesheet" href="https://exudev.ca/BeX/StyleSheets/splitchat.css" type="text/css" />');
+            $('head').append('<link rel="stylesheet" href="' + rootURL + 'css/splitchat.css" type="text/css" />');
         } else if (bexoptions.splitchat === false && isSplitChatLoaded) {
-            $('link[rel=stylesheet][href~="https://exudev.ca/BeX/StyleSheets/splitchat.css"]').remove();
+            $('link[rel=stylesheet][href~="' + rootURL + 'css/splitchat.css"]').remove();
         }
 
     }, 1000);
@@ -231,19 +228,19 @@ BeamExtended = function() {
         });
 
     //region Roles
-    $.getJSON('https://exudev.ca/BeX/config.json?' + Math.random(), function(data) {
+    $.getJSON(rootURL + 'config.json?' + Math.random(), function(data) {
         roles = data;
     });
     //endregion
 
     //region Chat Colors
-    $.getJSON('https://exudev.ca/BeX/UsernameColors.json', function(data) {
+    $.getJSON(rootURL + 'UsernameColors.json', function(data) {
         colors = data;
     });
     //endregion
 
     //region Emotes
-    $.getJSON('https://exudev.ca/BeX/emotes/_index.json?' + Math.random(),
+    $.getJSON(rootURL + 'emotes/_index.json?' + Math.random(),
         /**
          * @param {{template: String, emotes: Object}} data
          */
@@ -339,7 +336,7 @@ BeamExtended = function() {
         }
     }
 
-    $.getJSON('https://exudev.ca/BeX/emotes/' + channel + '/_index.json?' + Math.random())
+    $.getJSON(rootURL + 'emotes/' + channel + '/_index.json?' + Math.random())
         .done(function(emotes) {
             onCustomChannelEmotesLoaded(emotes);
         })
@@ -349,7 +346,7 @@ BeamExtended = function() {
     //endregion
     //endregion
 
-    var $cssLink = $('<link rel="stylesheet" type="text/css" href="https://exudev.ca/BeX/StyleSheets/' + styleChannel + '.css?">');
+    var $cssLink = $('<link rel="stylesheet" type="text/css" href="' + rootURL + 'css/' + styleChannel + '.css?">');
     $('head').append($cssLink);
 
     function overrideMessageBody($messageBody) {
@@ -609,8 +606,9 @@ BeamExtended = function() {
                 ).append(
                     $('<div>').addClass("chat-dialog-menu-footer").append(
                         $('<div>').addClass("col-md-6").append(
-                            $('<a>').addClass('btn btn-sm btn-default').text('Close').click(function() {
-                                $bexOptions.hide('fast');
+                            $('<a>').addClass('btn btn-sm btn-default').text('Issues / Suggestions').attr({
+                                target: '_blank',
+                                href: 'https://github.com/IFDevelopment/BeamExtended/issues'
                             })
                         )
                     ).append(
@@ -635,6 +633,17 @@ BeamExtended = function() {
         $('.message-actions').find('.list-inline').append(
             $('<li>').append('<a class="pull-left btn btn-link icon icon-menu">').click(function() {
                 $bexOptions.toggle('fast');
+            }).mouseover(function() {
+                var $tooltip = $('<div>').addClass('tooltip in am-fade bottom').css({
+                    top: '29px',
+                    display: 'block'
+                }).html('<div class="tooltip-arrow"></div><div class="tooltip-inner">BEx Settings</div>');
+
+                $(this).append($tooltip);
+
+                $tooltip.css('left', $(this).offset().left - $('.chat-panel').offset().left - ($tooltip.width() / 2) + $(this).width() / 2);
+            }).mouseout(function() {
+                $(this).find('.tooltip').remove();
             })
         );
     }
@@ -724,7 +733,7 @@ BeamExtended = function() {
     console.log('Loaded BeamExtended v' + VERSION);
 
     function checkForAlerts() {
-        $.getJSON('https://exudev.ca/BeX/alert.json', function(systemAlert) {
+        $.getJSON(rootURL + 'alert.json', function(systemAlert) {
             for (var i in systemAlert) {
                 if (!systemAlert.hasOwnProperty(i)) continue;
                 if (triggeredAlerts.indexOf(systemAlert[i]) > -1) continue;
