@@ -1,3 +1,7 @@
+# 04/03/2015 - 1.3.0 - Ignore Edition
+* Added Ignore bots (ignores all messages from registered bots)
+* Added Ignore commands (ignores all messages beginning with !)
+
 # 04/03/2015 - 1.2.0 - TAT got Insane Edition
 * Changed to use SCSS for the stylesheets
 * Added compability to TATs Development Environment
