@@ -43,7 +43,7 @@ $.fn.ignore = function(sel) {
 };
 
 BeamExtended = function() {
-    var VERSION = '1.3.0';
+    var VERSION = '1.2.0';
     var COMMAND = ':'; // What is before a command?
 
     var twitchEmoteTemplate = '';
@@ -63,9 +63,7 @@ BeamExtended = function() {
         usercolors: true,
         twitchbadges: false,
         bexbadges: false,
-        splitchat: false,
-        ignorecommands: false,
-        ignorerobots: false
+        splitchat: false
     };
 
     //region Localstorage
@@ -215,22 +213,6 @@ BeamExtended = function() {
                 }
             }
             return false;
-        },
-        equalsIgnoreCase: function(a, b) {
-            if (typeof a === 'string') {
-                if (typeof b === 'string' && a.length == b.length) {
-                    return a.toLowerCase() == b.toLowerCase();
-                } else if ($.isArray(b)) {
-                    for (var c in b) {
-                        if (!b.hasOwnProperty(c)) continue;
-                        var d = b[c];
-                        if (typeof d === 'string' && Utils.equalsIgnoreCase(a, d)) {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
         }
     };
 
@@ -367,6 +349,96 @@ BeamExtended = function() {
     var $cssLink = $('<link rel="stylesheet" type="text/css" href="' + rootURL + 'css/' + styleChannel + '.css?">');
     $('head').append($cssLink);
 
+    function overrideMessageBody($messageBody) {
+        if ($messageBody.data('overridden') == null) {
+            // Replace image links with images
+            if (bexoptions.linkimages === true) {
+                $messageBody.find('a').each(function() {
+                    // Prevent overriding multiple times
+                    if ($(this).hasClass('open')) return;
+
+                    if (Utils.endsWithIgnoreCase(Utils.getBaseURL(this.href), ['.gif', '.jpg', '.jpeg', '.png', '.rif', '.tiff', '.bmp'])) {
+                        var original = $('<div>').append($(this).clone()).html();
+
+                        var $imgContainer = $('<div>').addClass('imgContainer');
+
+                        $(this).replaceWith($imgContainer);
+
+                        $imgContainer.append($('<img>').attr('src', Utils.proxifyImage(this.href)));
+
+                        $imgContainer.append($('<a>').addClass('open btn').text('Open').attr({
+                            target: '_blank',
+                            href: this.href
+                        })).append($('<div>').addClass('remove btn').text('Remove').click(function() {
+                            // FIXME: At some point...
+                            $(original).find('.remove').text('Are you sure?');
+                            $imgContainer.replaceWith($('<div>').append(original));
+                        }));
+                    }
+                });
+            }
+
+            var messageBody = ' ' + $messageBody.html() + ' ';
+            var oldMessageBody = messageBody;
+            var emote, temp, hasEmotes = false;
+
+            // Replace Twitch Emotes (Global)
+            if (bexoptions.twitchemotes === true) {
+                for (var i in twitchEmotes) {
+                    if (!twitchEmotes.hasOwnProperty(i)) continue;
+                    emote = twitchEmotes[i];
+                    if (messageBody.indexOf(' ' + emote.emote + ' ') > -1 || messageBody.indexOf(':' + emote.emote + ':') > -1) {
+                        hasEmotes = true;
+                        temp = $('<div>').append($('<img bex-tooltip="' + emote.emote + '">').addClass('exu-emote').attr('src', twitchEmoteTemplate.split('{image_id}').join(emote.image_id)).data('emote', $('<span>').html(emote.emote).text()));
+                        messageBody = messageBody.split(' ' + emote.emote + ' ').join(' ' + temp.html() + ' ');
+                        messageBody = messageBody.split(':' + emote.emote + ':').join(temp.html());
+                    }
+                }
+            }
+
+            // Replace Custom Emotes (Global)
+            for (i in customEmotes) {
+                if (!customEmotes.hasOwnProperty(i)) continue;
+                emote = customEmotes[i];
+                if (messageBody.indexOf(' ' + emote.emote + ' ') > -1 || messageBody.indexOf(':' + emote.emote + ':') > -1) {
+                    hasEmotes = true;
+                    temp = $('<div>').append($('<img bex-tooltip="' + emote.emote + '">').addClass('exu-emote').attr('src', customEmoteTemplate.global.split('{image_id}').join(emote.image_id).split('{image_ext}').join(emote.image_ext || 'png')).data('emote', $('<span>').html(emote.emote).text()));
+                    messageBody = messageBody.split(' ' + emote.emote + ' ').join(' ' + temp.html() + ' ');
+                    messageBody = messageBody.split(':' + emote.emote + ':').join(temp.html());
+                }
+            }
+
+            // Replace Custom Emotes (Channel)
+            for (i in customChannelEmotes) {
+                if (!customChannelEmotes.hasOwnProperty(i)) continue;
+                emote = customChannelEmotes[i];
+                if (messageBody.indexOf(' ' + emote.emote + ' ') > -1 || messageBody.indexOf(':' + emote.emote + ':') > -1) {
+                    hasEmotes = true;
+                    temp = $('<div>').append($('<img bex-tooltip="' + emote.emote + '">').addClass('exu-emote').attr('src', customEmoteTemplate.channel.split('{image_pack}').join(emote.image_pack || channel).split('{image_id}').join(emote.image_id).split('{image_ext}').join(emote.image_ext || 'png')).data('emote', $('<span>').html(emote.emote).text()));
+                    messageBody = messageBody.split(' ' + emote.emote + ' ').join(' ' + temp.html() + ' ');
+                    messageBody = messageBody.split(':' + emote.emote + ':').join(temp.html());
+                }
+            }
+
+            if (oldMessageBody != messageBody) {
+                $messageBody.html(messageBody.substr(1, messageBody.length - 1));
+
+                if (hasEmotes) {
+                    $messageBody.find('[bex-tooltip!=""]').qtip({ // Grab all elements with a non-blank data-tooltip attr.
+                        style: {
+                            classes: 'qtip'
+                        },
+                        content: {
+                            attr: 'bex-tooltip' // Tell qTip2 to look inside this attr for its content
+                        }
+                    });
+                }
+            }
+
+            $messageBody.data('overridden', true);
+        }
+    }
+
     $('textarea[ng-model="message.content"]').on("keyup", function(e) {
         var code = e.keyCode || e.which;
         if (code == '32') // 9 = TAB
@@ -388,7 +460,6 @@ BeamExtended = function() {
         }
     });
 
-    //region Settings
     function createSettingsPage() {
         function onChangeSetting(e) {
             var setting = $(e.target).attr('data-bex');
@@ -529,36 +600,6 @@ BeamExtended = function() {
                                         )
                                     )
                                 )
-                            ).append(
-                                $('<tr>').append(
-                                    $('<td>').addClass('col-xs-6').append(
-                                        $('<label>').text('Ignore Bots')
-                                    )
-                                ).append(
-                                    $('<td>').addClass('col-xs-6').append(
-                                        $('<label>').addClass('checkbox-fancy').append(
-                                            $('<input>').attr({
-                                                type: 'checkbox',
-                                                'data-bex': 'ignorerobots'
-                                            }).change(onChangeSetting)
-                                        )
-                                    )
-                                )
-                            ).append(
-                                $('<tr>').append(
-                                    $('<td>').addClass('col-xs-6').append(
-                                        $('<label>').text('Ignore Commands')
-                                    )
-                                ).append(
-                                    $('<td>').addClass('col-xs-6').append(
-                                        $('<label>').addClass('checkbox-fancy').append(
-                                            $('<input>').attr({
-                                                type: 'checkbox',
-                                                'data-bex': 'ignorecommands'
-                                            }).change(onChangeSetting)
-                                        )
-                                    )
-                                )
                             )
                         )
                     )
@@ -612,98 +653,6 @@ BeamExtended = function() {
             createSettingsPage();
         }
     }, 2000);
-    //endregion
-
-    //region On Chat Received
-    function overrideMessageBody($messageBody) {
-        if ($messageBody.data('overridden') == null) {
-            // Replace image links with images
-            if (bexoptions.linkimages === true) {
-                $messageBody.find('a').each(function() {
-                    // Prevent overriding multiple times
-                    if ($(this).hasClass('open')) return;
-
-                    if (Utils.endsWithIgnoreCase(Utils.getBaseURL(this.href), ['.gif', '.jpg', '.jpeg', '.png', '.rif', '.tiff', '.bmp'])) {
-                        var original = $('<div>').append($(this).clone()).html();
-
-                        var $imgContainer = $('<div>').addClass('imgContainer');
-
-                        $(this).replaceWith($imgContainer);
-
-                        $imgContainer.append($('<img>').attr('src', Utils.proxifyImage(this.href)));
-
-                        $imgContainer.append($('<a>').addClass('open btn').text('Open').attr({
-                            target: '_blank',
-                            href: this.href
-                        })).append($('<div>').addClass('remove btn').text('Remove').click(function() {
-                            // FIXME: At some point...
-                            $(original).find('.remove').text('Are you sure?');
-                            $imgContainer.replaceWith($('<div>').append(original));
-                        }));
-                    }
-                });
-            }
-
-            var messageBody = ' ' + $messageBody.html() + ' ';
-            var oldMessageBody = messageBody;
-            var emote, temp, hasEmotes = false;
-
-            // Replace Twitch Emotes (Global)
-            if (bexoptions.twitchemotes === true) {
-                for (var i in twitchEmotes) {
-                    if (!twitchEmotes.hasOwnProperty(i)) continue;
-                    emote = twitchEmotes[i];
-                    if (messageBody.indexOf(' ' + emote.emote + ' ') > -1 || messageBody.indexOf(':' + emote.emote + ':') > -1) {
-                        hasEmotes = true;
-                        temp = $('<div>').append($('<img bex-tooltip="' + emote.emote + '">').addClass('exu-emote').attr('src', twitchEmoteTemplate.split('{image_id}').join(emote.image_id)).data('emote', $('<span>').html(emote.emote).text()));
-                        messageBody = messageBody.split(' ' + emote.emote + ' ').join(' ' + temp.html() + ' ');
-                        messageBody = messageBody.split(':' + emote.emote + ':').join(temp.html());
-                    }
-                }
-            }
-
-            // Replace Custom Emotes (Global)
-            for (i in customEmotes) {
-                if (!customEmotes.hasOwnProperty(i)) continue;
-                emote = customEmotes[i];
-                if (messageBody.indexOf(' ' + emote.emote + ' ') > -1 || messageBody.indexOf(':' + emote.emote + ':') > -1) {
-                    hasEmotes = true;
-                    temp = $('<div>').append($('<img bex-tooltip="' + emote.emote + '">').addClass('exu-emote').attr('src', customEmoteTemplate.global.split('{image_id}').join(emote.image_id).split('{image_ext}').join(emote.image_ext || 'png')).data('emote', $('<span>').html(emote.emote).text()));
-                    messageBody = messageBody.split(' ' + emote.emote + ' ').join(' ' + temp.html() + ' ');
-                    messageBody = messageBody.split(':' + emote.emote + ':').join(temp.html());
-                }
-            }
-
-            // Replace Custom Emotes (Channel)
-            for (i in customChannelEmotes) {
-                if (!customChannelEmotes.hasOwnProperty(i)) continue;
-                emote = customChannelEmotes[i];
-                if (messageBody.indexOf(' ' + emote.emote + ' ') > -1 || messageBody.indexOf(':' + emote.emote + ':') > -1) {
-                    hasEmotes = true;
-                    temp = $('<div>').append($('<img bex-tooltip="' + emote.emote + '">').addClass('exu-emote').attr('src', customEmoteTemplate.channel.split('{image_pack}').join(emote.image_pack || channel).split('{image_id}').join(emote.image_id).split('{image_ext}').join(emote.image_ext || 'png')).data('emote', $('<span>').html(emote.emote).text()));
-                    messageBody = messageBody.split(' ' + emote.emote + ' ').join(' ' + temp.html() + ' ');
-                    messageBody = messageBody.split(':' + emote.emote + ':').join(temp.html());
-                }
-            }
-
-            if (oldMessageBody != messageBody) {
-                $messageBody.html(messageBody.substr(1, messageBody.length - 1));
-
-                if (hasEmotes) {
-                    $messageBody.find('[bex-tooltip!=""]').qtip({ // Grab all elements with a non-blank data-tooltip attr.
-                        style: {
-                            classes: 'qtip'
-                        },
-                        content: {
-                            attr: 'bex-tooltip' // Tell qTip2 to look inside this attr for its content
-                        }
-                    });
-                }
-            }
-
-            $messageBody.data('overridden', true);
-        }
-    }
 
     function onChatReceived(event) {
         var $this = $(event.target);
@@ -712,12 +661,6 @@ BeamExtended = function() {
         var messageRole = $this.attr('data-role');
 
         if (messageAuthor === null || messageRole === null) {
-            return;
-        }
-
-        if (bexoptions.ignorerobots && Utils.equalsIgnoreCase(messageAuthor, roles['BExBot'] != null ? roles['BExBot'] : []) ||
-            bexoptions.ignorecommands && Utils.startsWith($this.find('.message-body').ignore('.message-timestamp').text(), '!')) {
-            $this.remove();
             return;
         }
 
@@ -771,6 +714,7 @@ BeamExtended = function() {
         }
     }
 
+
     function onMessageOverridden(event) {
         var $this = $(event.target);
         if ($this.hasClass('message-body')) {
@@ -785,7 +729,6 @@ BeamExtended = function() {
     var $messages = $('.messages').find('.nano-content');
 
     $messages.on('DOMNodeInserted', onChatReceived);
-    //endregion
 
     console.log('Loaded BeamExtended v' + VERSION);
 
