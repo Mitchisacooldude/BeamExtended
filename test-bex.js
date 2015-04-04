@@ -1,5 +1,5 @@
 /** @license
- * Copyright (c) 2015 IFDevelopment
+ * Copyright (c) 2015 BExDevelopmentTeam
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  *
  * Should any questions arise concerning your usage of this Software, or to
  * request permission to distribute this Software, please contact the copyright
- * holder at contact@exudev.ca or by creating an issue here - https://github.com/IFDevelopment/BeamExtended/issues
+ * holder at contact@exudev.ca or by creating an issue here - https://github.com/ExuDev/BeamExtended/issues
  *
  * ---------------------------------
  *
@@ -38,29 +38,8 @@ if (typeof BeamExtendedInstance != 'undefined') {
     BeamExtendedInstance.close();
 }
 
-$.fn.ignore = function(sel) {
-    return this.clone().find(sel || ">*").remove().end();
-};
-
 BeamExtended = function() {
-    var bexoptions = {
-        twitchemotes: true,
-        linkimages: false,
-        usercolors: true,
-        twitchbadges: false,
-        bexbadges: false,
-        splitchat: false
-    };
-
-    //Localstorage
-    if (localStorage.getItem('bex') == null) {
-        localStorage.setItem('bex', JSON.stringify(bexoptions));
-    } else {
-        bexoptions = JSON.parse(localStorage.getItem('bex'));
-    }
-    //End Local Storage
-
-    var VERSION = '1.1.7';
+    var VERSION = '1.1.1';
     var COMMAND = ':'; // What is before a command?
 
     var twitchEmoteTemplate = '';
@@ -73,12 +52,30 @@ BeamExtended = function() {
     var customEmotes = [];
     var customChannelEmotes = [];
 
-    var $bexOptions;
-
     var roles = {};
     var colors = {};
+    var colorWheel = [
+        "#FF0000",
+        "#0000FF",
+        "#008000",
+        "#B22222",
+        "#FF7F50",
+        "#9ACD32",
+        "#FF4500",
+        "#2E8B57",
+        "#DAA520",
+        "#D2691E",
+        "#5F9EA0",
+        "#1E90FF",
+        "#FF69B4",
+        "#8A2BE2",
+        "#00FF7F"
+    ];
+    var secondColors = {};
 
     var triggeredAlerts = [];
+
+    var tssnCrew = ['mindlesspuppetz', 'siggy', 'blackhawk120', 'ziteseve', 'squeaker', 'akujitube', 'artdude543', 'lilmac21', 'icanhascookie69', 'cadillac_don'];
 
     var timeoutAlertChecker;
     var timeoutColorGetter;
@@ -88,10 +85,6 @@ BeamExtended = function() {
     var pathname = window.location.pathname;
     var channel = pathname.toLowerCase().replace("/", "");
 
-    /**
-     * Get the current stylesheet design
-     * @returns {string}
-     */
     function GetStylesheet() {
         if (bexoptions.bexbadges === true) {
             return 'bexBadgesStyle';
@@ -110,8 +103,8 @@ BeamExtended = function() {
     $('head').append('<link rel="stylesheet" href="https://exudev.ca/BeX/Dependencies/qtip.css" type="text/css" />');
 
     setInterval(function() {
-        var bexBadgesLoaded = $("link[href^='https://exudev.ca/BeX/StyleSheets/bexBadgesStyle.css?']").length > 0;
-        var twitchBadgesLoaded = $("link[href^='https://exudev.ca/BeX/StyleSheets/bexTwitchBadgesStyle.css?']").length > 0;
+        var bexBadgesLoaded = $("link[href='https://exudev.ca/BeX/StyleSheets/bexBadgesStyle.css?']").length > 0;
+        var twitchBadgesLoaded = $("link[href='https://exudev.ca/BeX/StyleSheets/bexTwitchBadgesStyle.css?']").length > 0;
         if (bexoptions.bexbadges === true && styleChannel != 'bexBadgesStyle' && !bexBadgesLoaded) {
             styleChannel = GetStylesheet();
             $cssLink.attr('href', 'https://exudev.ca/BeX/StyleSheets/' + styleChannel + '.css?');
@@ -139,10 +132,6 @@ BeamExtended = function() {
 
     var username = '';
 
-    /**
-     * Different Utilities
-     * @type {{proxifyImage: Function, getBaseURL: Function, startsWith: Function, startsWithIgnoreCase: Function, endsWith: Function, endsWithIgnoreCase: Function}}
-     */
     var Utils = {
         proxifyImage: function(url) {
             if (Utils.startsWithIgnoreCase(url, 'http://')) {
@@ -220,21 +209,25 @@ BeamExtended = function() {
     };
 
     //region Loading data
-    $.getJSON('https://beam.pro/api/v1/users/current',
-        /**
-         * @param {{username: null|String}} data
-         */
-        function(data) {
-            if (data.username !== null) {
-                username = data.username.toLowerCase();
-            }
-        });
+    $.getJSON('https://beam.pro/api/v1/users/current', function(data) {
+        if (data.username !== null) {
+            username = data.username.toLowerCase();
+        }
+    });
 
     //region Roles
     $.getJSON('https://exudev.ca/BeX/config.json?' + Math.random(), function(data) {
         roles = data;
     });
     //endregion
+
+    // This is a cookie loader for the GlobalUsernames - Which makes every user on beam have a color
+    // It is currenlty not working
+    // document.cookie.split(';').forEach(function(part) {
+    //    if (part.trim().indexOf('BeXColors') === 0) {
+    //        secondColors = JSON.parse(part.split('=')[1].trim());
+    //    }
+    // })
 
     //region Chat Colors
     $.getJSON('https://exudev.ca/BeX/UsernameColors.json', function(data) {
@@ -284,14 +277,14 @@ BeamExtended = function() {
         if (emotes !== null) {
             customChannelEmotes = emotes;
 
-            if (Utils.startsWith(channel, ['tatdk', 'exuviax', 'mradder'])) {
+            if (channel == 'exuviax') {
                 $messages.append(
                     $('<div>')
                         .addClass('message')
                         .attr('data-role', 'ExuMessage').append(
                         $('<div>')
                             .addClass('message-body')
-                            .html('Hey, I help create/maintain <a href="https://github.com/IFDevelopment/BeamExtended" target="_blank">Beam Extended</a> v' + VERSION + '!<br> To submit an issue/suggestion or want your own channel emotes, <a href="http://beamalerts.com/bex/" target="_blank">click here</a>')
+                            .html('Hey, I help create/maintain <a href="https://github.com/ExuDev/BeamExtended" target="_blank">Beam Extended</a> v' + VERSION + '!<br> To see all my channel emotes and bot commands, go <a href="http://beamalerts.com/bex/exuviax" target="_blank"> here</a>')
                     )
                 );
 
@@ -302,7 +295,7 @@ BeamExtended = function() {
 
                 var $message = $('<div>')
                     .addClass('message-body')
-                    .html('<a href="https://github.com/IFDevelopment/BeamExtended" target="_blank">Beam Extended loaded</a> v' + VERSION + '<br><strong>This channel is using custom emotes!</strong><br> The emotes are: ');
+                    .html('<a href="https://github.com/ExuDev/BeamExtended" target="_blank">Beam Extended loaded</a> v' + VERSION + '<br><strong>This channel is using custom emotes!</strong><br> The emotes are: ');
 
                 for (var i in emotes) {
                     if (!emotes.hasOwnProperty(i)) continue;
@@ -329,7 +322,7 @@ BeamExtended = function() {
                     .attr('data-role', 'ExuMessage').append(
                     $('<div>')
                         .addClass('message-body')
-                        .html('<a href="https://github.com/IFDevelopment/BeamExtended" target="_blank">Beam Extended loaded</a> v' + VERSION + '<br> Request custom emotes for your channel <a href=\"http://beamalerts.com/bex/\" target=\"_blank\"> here</a>')
+                        .html('<a href="https://github.com/ExuDev/BeamExtended" target="_blank">Beam Extended loaded</a> v' + VERSION + '<br> Request custom emotes for your channel <a href=\"http://beamalerts.com/bex/\" target=\"_blank\"> here</a>')
                 )
             );
 
@@ -348,7 +341,6 @@ BeamExtended = function() {
         });
     //endregion
     //endregion
-
     var $cssLink = $('<link rel="stylesheet" type="text/css" href="https://exudev.ca/BeX/StyleSheets/' + styleChannel + '.css?">');
     $('head').append($cssLink);
 
@@ -357,9 +349,6 @@ BeamExtended = function() {
             // Replace image links with images
             if (bexoptions.linkimages === true) {
                 $messageBody.find('a').each(function() {
-                    // Prevent overriding multiple times
-                    if ($(this).hasClass('open')) return;
-
                     if (Utils.endsWithIgnoreCase(Utils.getBaseURL(this.href), ['.gif', '.jpg', '.jpeg', '.png', '.rif', '.tiff', '.bmp'])) {
                         var original = $('<div>').append($(this).clone()).html();
 
@@ -373,9 +362,9 @@ BeamExtended = function() {
                             target: '_blank',
                             href: this.href
                         })).append($('<div>').addClass('remove btn').text('Remove').click(function() {
-                            // FIXME: At some point...
-                            $(original).find('.remove').text('Are you sure?');
-                            $imgContainer.replaceWith($('<div>').append(original));
+                            $(this).text('Are you sure?').off('click').click(function() {
+                                $imgContainer.replaceWith($('<div>').append(original));
+                            });
                         }));
                     }
                 });
@@ -428,9 +417,6 @@ BeamExtended = function() {
 
                 if (hasEmotes) {
                     $messageBody.find('[bex-tooltip!=""]').qtip({ // Grab all elements with a non-blank data-tooltip attr.
-                        style: {
-                            classes: 'qtip'
-                        },
                         content: {
                             attr: 'bex-tooltip' // Tell qTip2 to look inside this attr for its content
                         }
@@ -440,6 +426,28 @@ BeamExtended = function() {
 
             $messageBody.data('overridden', true);
         }
+    }
+
+    function argsToString(args) {
+        var string = "";
+
+        if (args instanceof Array) {
+            if (args.length > 1) {
+                var iteration = 0,
+                    delim = "";
+                for (var x = 0; x < args.length; x++) {
+                    if (iteration === 0) {
+                        iteration = 1;
+                        continue;
+                    }
+
+                    string += delim + args[x];
+                    delim = " ";
+                }
+            }
+        }
+
+        return string;
     }
 
     $('textarea[ng-model="message.content"]').on("keyup", function(e) {
@@ -455,7 +463,7 @@ BeamExtended = function() {
                             $(this).val($(this).val().replace(COMMAND + "version", "BEx :: Beam Extended Version " + VERSION + "!")); // Just replace the command.
                             break;
                         case "link":
-                            $(this).val($(this).val().replace(COMMAND + "link", "BEx :: You can grab Beam Extended from https://github.com/IFDevelopment/BeamExtended "));
+                            $(this).val($(this).val().replace(COMMAND + "link", "BEx :: You can grab Beam Extended from https://github.com/ExuDev/BeamExtended "));
                             break;
                     }
                 }
@@ -464,238 +472,120 @@ BeamExtended = function() {
     });
 
     function createSettingsPage() {
-        function onChangeSetting(e) {
-            var setting = $(e.target).attr('data-bex');
-
-            switch (setting) {
-                case 'bexbadges':
-                    if (bexoptions['twitchbadges']) {
-                        bexoptions['twitchbadges'] = false;
-                        $('input[data-bex="twitchbadges"]').removeAttr('checked');
-                    }
-                    break;
-                case 'twitchbadges':
-                    if (bexoptions['bexbadges']) {
-                        bexoptions['bexbadges'] = false;
-                        $('input[data-bex="bexbadges"]').removeAttr('checked');
-                    }
-                    break;
-            }
-
-            bexoptions[setting] = !bexoptions[setting];
-            localStorage.setItem('bex', JSON.stringify(bexoptions));
+        var opts = $("chat-options"); // Get the div
+        var parent = opts.find("div section"); // Find the section
+        if (parent !== null) {
+            // Add the navigation element for our page
+            var nav = parent.find(".chat-dialog-menu ul");
+            nav.find("li").attr("data-apage", "0"); // Add them to my logic
+            nav.append('<li class="" data-apage="Bex"><a href="#">Bex Settings</a></li>');
         }
-
-        $bexOptions = $('<bex-settings>').append(
-            $('<div>').addClass('chat-dialog chat-dialog-with-menu animated animated-s-fast zoomIn-enter zoomOut-leave').append(
-                $('<header>').append(
-                    $('<h5>').text('BEx Settings').append($('<a class="pull-right icon icon-close chat-close-icon"></a>').click(function() {
-                        $bexOptions.hide('fast');
-                    }))
-                )/*
-                 //TODO: In case we want multiple tabs
-                 .append(
-                 $('<div>').addClass("chat-dialog-menu").append(
-                 $('<ul>').addClass("nav nav-pills nav-pills-beam").append(
-                 $('<li>').addClass("active").append(
-                 $('<a>').text('Channel')
-                 )
-                 ).append(
-                 $('<li>').append(
-                 $('<a>').text('Personal')
-                 )
-                 )
-                 )
-                 )*/
-            ).append(
-                $('<section>').append(
-                    $('<alerts-box messages="errors">')
-                ).append(
-                    $('<div>').addClass("chat-dialog-menu-page").append(
-                        $('<table>').addClass("table").append(
-                            $('<tbody>').append(
-                                $('<tr>').append(
-                                    $('<td>').addClass('col-xs-6').append(
-                                        $('<label>').text('Twitch Emotes')
-                                    )
-                                ).append(
-                                    $('<td>').addClass('col-xs-6').append(
-                                        $('<label>').addClass('checkbox-fancy').append(
-                                            $('<input>').attr({
-                                                type: 'checkbox',
-                                                'data-bex': 'twitchemotes'
-                                            }).change(onChangeSetting)
-                                        )
-                                    )
-                                )
-                            ).append(
-                                $('<tr>').append(
-                                    $('<td>').addClass('col-xs-6').append(
-                                        $('<label>').text('Username Colors')
-                                    )
-                                ).append(
-                                    $('<td>').addClass('col-xs-6').append(
-                                        $('<label>').addClass('checkbox-fancy').append(
-                                            $('<input>').attr({
-                                                type: 'checkbox',
-                                                'data-bex': 'usercolors'
-                                            }).change(onChangeSetting)
-                                        )
-                                    )
-                                )
-                            ).append(
-                                $('<tr>').append(
-                                    $('<td>').addClass('col-xs-6').append(
-                                        $('<label>').text('BEx Badges')
-                                    )
-                                ).append(
-                                    $('<td>').addClass('col-xs-6').append(
-                                        $('<label>').addClass('checkbox-fancy').append(
-                                            $('<input>').attr({
-                                                type: 'checkbox',
-                                                'data-bex': 'bexbadges'
-                                            }).change(onChangeSetting)
-                                        )
-                                    )
-                                )
-                            ).append(
-                                $('<tr>').append(
-                                    $('<td>').addClass('col-xs-6').append(
-                                        $('<label>').text('Twitch Badges')
-                                    )
-                                ).append(
-                                    $('<td>').addClass('col-xs-6').append(
-                                        $('<label>').addClass('checkbox-fancy').append(
-                                            $('<input>').attr({
-                                                type: 'checkbox',
-                                                'data-bex': 'twitchbadges'
-                                            }).change(onChangeSetting)
-                                        )
-                                    )
-                                )
-                            ).append(
-                                $('<tr>').append(
-                                    $('<td>').addClass('col-xs-6').append(
-                                        $('<label>').text('Chat Images')
-                                    )
-                                ).append(
-                                    $('<td>').addClass('col-xs-6').append(
-                                        $('<label>').addClass('checkbox-fancy').append(
-                                            $('<input>').attr({
-                                                type: 'checkbox',
-                                                'data-bex': 'linkimages'
-                                            }).change(onChangeSetting)
-                                        )
-                                    )
-                                )
-                            ).append(
-                                $('<tr>').append(
-                                    $('<td>').addClass('col-xs-6').append(
-                                        $('<label>').text('Split Chat')
-                                    )
-                                ).append(
-                                    $('<td>').addClass('col-xs-6').append(
-                                        $('<label>').addClass('checkbox-fancy').append(
-                                            $('<input>').attr({
-                                                type: 'checkbox',
-                                                'data-bex': 'splitchat'
-                                            }).change(onChangeSetting)
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                    )
-                ).append(
-                    $('<div>').addClass("chat-dialog-menu-footer").append(
-                        $('<div>').addClass("col-md-6").append(
-                            $('<a>').addClass('btn btn-sm btn-default').text('Close').click(function() {
-                                $bexOptions.hide('fast');
-                            })
-                        )
-                    ).append(
-                        $('<div>').addClass("col-md-6 text-right").append(
-                            $('<a>').addClass('btn btn-sm btn-primary').text('Save').click(function() {
-                                $bexOptions.hide('fast');
-                            })
-                        )
-                    )
-                )
-            )
-        ).hide();
-
-        $('.chat-panel').find('.panel-body').append($bexOptions);
-
-        for (var i in bexoptions) {
-            if (bexoptions.hasOwnProperty(i) && bexoptions[i] == true) {
-                $('input[data-bex="' + i + '"]').attr('checked', 'checked');
-            }
-        }
-
-        $('.message-actions').find('.list-inline').append(
-            $('<li>').append('<a class="pull-left btn btn-link icon icon-menu">').click(function() {
-                $bexOptions.toggle('fast');
-            })
-        );
     }
 
-    setInterval(function() {
-        if ($(".message-actions .icon-menu").length < 1) {
-            createSettingsPage();
+    // Selector is a bit annoying, but I can't see a better more reliable one to use.
+    $(".message-actions .icon-equalizer").click(function() {
+        createSettingsPage();
+    });
+
+    //$("chat-options").on("click", "input[data-bex]", function() {
+    //    // TEMPORARY FOR TESTING PURPOSES
+    //    console.log("Toggle State of: " + $(this).data("bex"));
+    //});
+
+    $("chat-options").on("click", "li[data-apage]", function() {
+        var num = $(this).data("apage");
+
+        $(this).parent().find("li").removeClass("active");
+        $(this).addClass("active");
+
+        var section = $(this).parent().parent().parent();
+
+        // If our page doesn't exist, then re-add it.
+        // We do this because the Beam system resets the syntax when their pages change.
+        if ($(".chat-dialog-menu-page.bexobj").length === 0) {
+            var ourPage = '<div class="chat-dialog-menu-page ng-scope bexobj" data-bpage="Bex">' +
+                '<table class="table">' +
+                '<tbody>' +
+                '<tr>' +
+                '<td class="col-xs-6"><label>Twitch Emotes</label></td>' +
+                '<td><label class="checkbox-fancy"><input type="checkbox" data-bex="twitchemotes" class="ng-pristine ng-untouched ng-valid"></label></td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td class="col-xs-6"><label>Username Colors</label></td>' +
+                '<td><label class="checkbox-fancy"><input type="checkbox" data-bex="usercolors" class="ng-pristine ng-untouched ng-valid"></label></td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td class="col-xs-6"><label>Use BEx Badges</label></td>' +
+                '<td><label class="checkbox-fancy"><input type="checkbox" data-bex="bexbadges" class="ng-pristine ng-untouched ng-valid"></label></td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td class="col-xs-6"><label>Use Twitch Badges</label></td>' +
+                '<td><label class="checkbox-fancy"><input type="checkbox" data-bex="twitchbadges" class="ng-pristine ng-untouched ng-valid"></label></td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td class="col-xs-6"><label>Chat Images</label></td>' +
+                '<td><label class="checkbox-fancy"><input type="checkbox" data-bex="linkimages" class="ng-pristine ng-untouched ng-valid"></label></td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td class="col-xs-6"><label>SplitChat</label></td>' +
+                '<td><label class="checkbox-fancy"><input type="checkbox" data-bex="splitchat" class="ng-pristine ng-untouched ng-valid"></label></td>' +
+                '</tr>' +
+                '</tbody>' +
+                '</table>' +
+                '</div>';
+            section.find(".chat-dialog-menu-page").after(ourPage);
+
+            for (opt in bexoptions) {
+                $('.chat-dialog-menu-page.bexobj input[data-bex="' + opt + '"]').prop("checked", bexoptions[opt]);
+            }
         }
-    }, 2000);
+
+        if (num == "Bex") {
+            section.find(".chat-dialog-menu-page").hide();
+            section.find('.chat-dialog-menu-page.bexobj').show();
+        } else {
+            section.find(".chat-dialog-menu-page").show();
+            section.find('.chat-dialog-menu-page.bexobj').hide();
+        }
+    });
 
     function onChatReceived(event) {
         var $this = $(event.target);
-        var messageAuthor = $this.find('.message-author').ignore('div').text().toLowerCase();
-        var $authorTooltip = $this.find('.message-author').find('.message-tooltip');
+        var messageAuthor = $this.find('.message-author').text().toLowerCase();
         var messageRole = $this.attr('data-role');
 
         if (messageAuthor === null || messageRole === null) {
             return;
         }
 
-        var i, _msgRoles = $authorTooltip.text().split(',');
-
-        for (i in _msgRoles) {
-            if (_msgRoles.hasOwnProperty(i)) {
-                _msgRoles[i] = _msgRoles[i].trim();
-            }
-        }
-
-        if (_msgRoles.indexOf('User') > -1) {
-            _msgRoles.splice(_msgRoles.indexOf('User'), 1);
-        }
-
-        $authorTooltip.text(_msgRoles.join(', '));
+        var i;
 
         // Check for special roles
         for (i in roles) {
             if (!roles.hasOwnProperty(i)) continue;
             if (roles[i].indexOf(messageAuthor) > -1) {
-                $this.addClass('message-role-' + i);
+                messageRole += ' ' + i;
             }
         }
+        $this.attr('data-role', messageRole);
 
         // User Colors
         if (bexoptions.usercolors === true) {
             if (colors[messageAuthor] !== null) {
                 $this.find('.message-author').css('color', colors[messageAuthor]);
+            } else if (secondColors[messageAuthor] !== null) {
+                if (bexoptions.globalcolors === true) {
+                    $this.find('.message-author').css('color', secondColors[messageAuthor]);
+                }
+            } else {
+                if (bexoptions.globalcolors === true) {
+                    var randomPicker = Math.floor(Math.random() * 16);
+                    secondColors[messageAuthor] = colorWheel[randomPicker];
+                    $this.find('.message-author').css('color', secondColors[messageAuthor]);
+                    // Here is more of the cookie loader, which is still not working.
+                    // document.cookie['BeXColors'] = JSON.stringify(secondColors);
+                }
             }
-            /*
-             TODO: Remove if this isn't comming back
-             else if (secondColors[messageAuthor] !== null) {
-             if (bexoptions.globalcolors === true) {
-             $this.find('.message-author').css('color', secondColors[messageAuthor]);
-             }
-             } else {
-             if (bexoptions.globalcolors === true) {
-             var randomPicker = Math.floor(Math.random() * 16);
-             secondColors[messageAuthor] = colorWheel[randomPicker];
-             $this.find('.message-author').css('color', secondColors[messageAuthor]);
-             }
-             }
-             */
         }
 
         overrideMessageBody($this.find('.message-body'));
@@ -749,8 +639,6 @@ BeamExtended = function() {
     this.close = function() {
         $messages.off('DOMNodeInserted', onChatReceived);
         $cssLink.remove();
-        $('#bexSettings').remove();
-        $('.message-actions').find('.icon-menu').remove();
         clearTimeout(timeoutAlertChecker);
         clearTimeout(timeoutColorGetter);
         BeamExtendedInstance = undefined;
@@ -758,6 +646,7 @@ BeamExtended = function() {
 
     return this;
 };
+
 
 (function() {
     function checker() {

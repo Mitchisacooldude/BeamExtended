@@ -1,12 +1,3 @@
-# 04/03/2015 - 1.2.0 - TAT got Insane Edition
-* Changed to use SCSS for the stylesheets
-* Added compability to TATs Development Environment
-* Added BEx Settings Tooltip
-* Added link to issues/suggestions page in the BEx Settings
-* Moved the files (TAT got insane by the directory structure)
-* Removed Games
-* Fixed Grayface
-
 # 04/01/2015 - April Fools Edition
 * Committed Sudoku
 * Added Games
@@ -14,10 +5,12 @@
 * Changed alot of CSS
 * Fixed Kappa
 
+
 # 03/25/2015
 * Fixed loading of BEx without having to force refresh
 * Fixed Welcome banner
 * Minor Bug Fixes
+
 
 # 03/22/2015
 * Added Chat Settings Tab
