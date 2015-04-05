@@ -1,7 +1,7 @@
 {
     "template": {
-        "global": "https://exudev.ca/BeX/emotes/{image_id}.{image_ext}",
-        "channel": "https://exudev.ca/BeX/emotes/{image_pack}/{image_id}.{image_ext}"
+        "global": "https://exudev.ca/BEx/emotes/{image_id}.{image_ext}",
+        "channel": "https://exudev.ca/BEx/emotes/{image_pack}/{image_id}.{image_ext}"
     },
     "emotes": [{
         "emote": "Mappa",
