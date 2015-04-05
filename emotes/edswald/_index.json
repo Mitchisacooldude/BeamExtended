@@ -1,8 +1,14 @@
 [{
     "emote": "edsAwwyeah",
-    "image_id": 1
+    "image_id": 1,
+    "image_ext": "jpg"
 }, {
     "emote": "Edscookie",
-    "image_id": 2,
-    "image_ext": "jpg"
+    "image_id": 2
+}, {
+    "emote": "Edsdoge",
+    "image_id": 3
+}, {
+    "emote": "Ripj",
+    "image_id": 4
 }]
