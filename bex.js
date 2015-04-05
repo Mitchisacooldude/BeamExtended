@@ -142,10 +142,7 @@ BeamExtended = function() {
      */
     var Utils = {
         proxifyImage: function(url) {
-            if (Utils.startsWithIgnoreCase(url, 'http://')) {
-                return 'https://api.plugCubed.net/proxy/' + url;
-            }
-            return url;
+            return 'https://api.plugCubed.net/proxy/' + url;
         },
         getBaseURL: function(url) {
             return url.indexOf('#') > -1 ? url.substr(0, url.indexOf('#')) : (url.indexOf('?') > -1 ? url.substr(0, url.indexOf('?')) : url);
