@@ -124,8 +124,9 @@
     }
     // Special Groups
     .message-role-BExPlayerDotMe,
-    .message-role-BExFamilyStrong {
-        .message-author {
+    .message-role-BExFamilyStrong,
+    .message-role-BExVG {
+            .message-author {
             padding-left: 22px;
             padding-bottom: 1px;
             background-repeat: no-repeat;
