@@ -122,16 +122,13 @@ BeamExtended = function() {
             styleChannel = GetStylesheet();
             $cssLink.attr('href', rootURL + 'css/' + styleChannel + '.css?');
         }
-    }, 1000);
 
-    setInterval(function() {
         var isSplitChatLoaded = $("link[href='" + rootURL + "css/splitchat.css']").length > 0;
         if (bexoptions.splitchat === true && !isSplitChatLoaded) {
             $('head').append('<link rel="stylesheet" href="' + rootURL + 'css/splitchat.css" type="text/css" />');
         } else if (bexoptions.splitchat === false && isSplitChatLoaded) {
             $('link[rel=stylesheet][href~="' + rootURL + 'css/splitchat.css"]').remove();
         }
-
     }, 1000);
 
     var username = '';
