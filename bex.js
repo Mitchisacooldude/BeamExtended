@@ -74,7 +74,7 @@ BeamExtended = function() {
     }
     //endregion Local Storage
 
-    var roles = {};
+    var roles = [];
     var colors = {};
 
     var triggeredAlerts = [];
@@ -225,7 +225,7 @@ BeamExtended = function() {
         });
 
     //region Roles
-    $.getJSON(rootURL + 'config.json?' + Math.random(), function(data) {
+    $.getJSON(rootURL + 'roles.json?' + Math.random(), function(data) {
         roles = data;
     });
     //endregion
@@ -676,14 +676,19 @@ BeamExtended = function() {
             _msgRoles.splice(_msgRoles.indexOf('User'), 1);
         }
 
-        $authorTooltip.text(_msgRoles.join(', '));
-
         // Check for special roles
         for (i in roles) {
             if (!roles.hasOwnProperty(i)) continue;
-            if (roles[i].indexOf(messageAuthor) > -1) {
-                $this.addClass('message-role-' + i);
+            if (roles[i].users.indexOf(messageAuthor) > -1) {
+                _msgRoles.push(roles[i].title);
+                $this.addClass('message-role-' + roles[i].class);
             }
+        }
+
+        if (_msgRoles.length > 0) {
+            $authorTooltip.text(_msgRoles.join(', '));
+        } else {
+            $authorTooltip.remove();
         }
 
         // User Colors
@@ -707,22 +712,29 @@ BeamExtended = function() {
              */
         }
 
-        overrideMessageBody($this.find('.message-body'));
-
+        // Check if it's your own message (instant and not from the server)
         if (messageAuthor == username) {
+            // Force the server response to override the message
+            $this.find('.message-body').append($('<span>'));
+
+            // Wait for server response to override message
             $this.on('DOMSubtreeModified', onMessageOverridden);
+        } else {
+            // Override message
+            overrideMessageBody($this.find('.message-body'));
         }
     }
 
-
     function onMessageOverridden(event) {
         var $this = $(event.target);
+
+        // Check it's the server, that is changed
         if ($this.hasClass('message-body')) {
             setTimeout(function() {
                 $this.off('DOMSubtreeModified');
             }, 500);
-            $(event.target).data('overridden', null);
             overrideMessageBody($this);
+            $(event.target).data('overridden', null);
         }
     }
 

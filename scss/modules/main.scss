@@ -83,9 +83,6 @@
         .message-author {
             color: $BExDevColor;
             background-image: $BExDevImage;
-            .message-tooltip:before {
-                content: $BExDevTooltip;
-            }
         }
     }
     .message-role-BExDonator {
@@ -148,26 +145,5 @@
     .message-role-BExFamilyStrong .message-author {
         color: $FamilyStrongColor;
         background-image: $FamilyStrongImage;
-    }
-    .message-role-BExPlayerDotMe .message-author .message-tooltip:before {
-        content: $PlayerDotMeTooltip;
-    }
-    .message-role-BExFamilyStrong .message-author .message-tooltip:before {
-        content: $FamilyStrongTooltip;
-    }
-    .message-role-BExMusicVerified .message-author .message-tooltip:before {
-        content: $BExMusicVerifiedTooltip;
-    }
-    .message-role-BExVerified .message-author .message-tooltip:before {
-        content: $BExVerifiedTooltip;
-    }
-    .message-role-BExBot .message-author .message-tooltip:before {
-        content: $RobotTooltip;
-    }
-    .message-role-BExTSSN .message-author .message-tooltip:before {
-        content: $TSSNTooltip;
-    }
-    .message-role-BExVG .message-author .message-tooltip:before {
-        content: $VGTooltip;
     }
 }

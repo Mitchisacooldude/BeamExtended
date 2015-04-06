@@ -1,0 +1,190 @@
+[
+    {
+        "class": "BExDev",
+        "title": "BEx Developer",
+        "users": [
+            "exuviax",
+            "tatdk",
+            "xero",
+            "valandrah",
+            "tromino",
+            "graphic",
+            "mradder"
+        ]
+    },
+    {
+        "class": "BExDonator",
+        "title": "BEx Donator",
+        "users": [
+            "trevin",
+            "nate",
+            "greg",
+            "wolf",
+            "keith",
+            "dowisjesus",
+            "valandrah",
+            "0kirstylouise0",
+            "exubot",
+            "mindlesspuppetz",
+            "yellowsnoflake",
+            "baddragon",
+            "xero",
+            "shripe",
+            "mangermouse",
+            "popskyy",
+            "mradder",
+            "exuviax",
+            "mrsluclin"
+        ]
+    },
+    {
+        "class": "BExMusicVerified",
+        "title": "Verified Music Producer",
+        "users": [
+            "popskyy"
+        ]
+    },
+    {
+        "class": "BExVerified",
+        "title": "Verified",
+        "users": [
+            "antvenom",
+            "tlovetech",
+            "sacheverell",
+            "pahimar",
+            "fireball1725",
+            "slowpoke",
+            "ttftcuts"
+        ]
+    },
+    {
+        "class": "BExPlayerDotMe",
+        "title": "Player.me Staff",
+        "users": [
+            "maktouch",
+            "jamies",
+            "playerdotme",
+            "katie"
+        ]
+    },
+    {
+        "class": "BExFamilyStrong",
+        "title": "Family Strong Member",
+        "users": [
+            "mrsluclin",
+            "luclinftw",
+            "lilethan000",
+            "yellowsnoflake",
+            "hatell",
+            "randynacol2002",
+            "cmgaming",
+            "gecko194",
+            "patsnflfan54",
+            "minervasraven",
+            "jarvis",
+            "immortalfrostbite",
+            "deslatte",
+            "danimarie",
+            "zettabtyte",
+            "moka898",
+            "crystalgoens",
+            "jimmyjulious",
+            "prettypenguin",
+            "orician",
+            "eraber01",
+            "mr_witherboss",
+            "treym",
+            "angelz",
+            "vertex101",
+            "pukehole",
+            "tatoplaysgames",
+            "madmommy",
+            "truefbv",
+            "kaya",
+            "mcproeli",
+            "zettabyte"
+        ]
+    },
+    {
+        "class": "BExBot",
+        "title": "Robot",
+        "users": [
+            "tssnbot",
+            "exudev",
+            "scottybot",
+            "derpabot",
+            "bexbot",
+            "bexdevbot",
+            "giveawaybot",
+            "benbot",
+            "k4bot"
+        ]
+    },
+    {
+        "class": "BExIFStaff",
+        "title": null,
+        "users": [
+            "exuviax",
+            "ifstudios",
+            "wolf",
+            "mangermouse",
+            "tingle",
+            "xzavior12",
+            "blueshae",
+            "captaindre4d",
+            "saimbettan",
+            "favremysabre"
+        ]
+    },
+    {
+        "class": "TheBExBot",
+        "title": null,
+        "users": [
+            "bexbot",
+            "exudev",
+            "bexdevbot"
+        ]
+    },
+    {
+        "class": "BExTSSN",
+        "title": "TSSN Member",
+        "users": [
+            "mindlesspuppetz",
+            "siggy",
+            "blackhawk120",
+            "ziteseve",
+            "squeaker",
+            "grimrot",
+            "artdude543",
+            "lilmac21",
+            "icanhascookie69",
+            "cadillac_don",
+            "dedrabbits"
+        ]
+    },
+    {
+        "class": "BExVG",
+        "title": "Variety Gamers Member",
+        "users": [
+            "cwhitemaster99",
+            "0kirstylouise0",
+            "erijah",
+            "tasty_tuna",
+            "truefbv",
+            "tuna_husband",
+            "xspyinpinkx",
+            "twiggy21",
+            "umadbro1911",
+            "sargent_merrick",
+            "xdivineclownx",
+            "ovowls",
+            "mr_bo_jenkins",
+            "kinnywinny_",
+            "varietygamers",
+            "nasa7",
+            "mcwonderparks",
+            "racerdude15",
+            "bacon_space"
+        ]
+    }
+]
