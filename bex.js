@@ -451,6 +451,9 @@ BeamExtended = function() {
                         case "link":
                             $(this).val($(this).val().replace(COMMAND + "link", "BEx :: You can grab Beam Extended from https://github.com/IFDevelopment/BeamExtended "));
                             break;
+                        case "issue":
+                            $(this).val($(this).val().replace(COMMAND + "issue", "BEx :: If you have an issue/suggestion please report it https://github.com/IFDevelopment/BeamExtended/issues  "));
+                            break;
                     }
                 }
             }
