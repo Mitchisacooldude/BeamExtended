@@ -167,4 +167,7 @@
     .message-role-BExTSSN .message-author .message-tooltip:before {
         content: $TSSNTooltip;
     }
+    .message-role-BExVG .message-author .message-tooltip:before {
+        content: $VGTooltip;
+    }
 }
