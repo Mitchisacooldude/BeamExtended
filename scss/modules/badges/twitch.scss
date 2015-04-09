@@ -9,9 +9,9 @@
     .message-role-Premium {
         padding-top: 8px;
         padding-left: 21px;
-        background-size: 23px 23px;
+        background-size: 18px 18px;
         background-repeat: no-repeat;
-        background-position: 0 8px;
+        background-position: 0 9px;
         font-size: 15px;
         border-left: 3px solid transparent;
         border-right: 3px solid transparent;
@@ -23,14 +23,20 @@
 
     .message-role-Developer {
         padding-left: 11px;
-        background-size: 18px 18px;
-        background-image: url('https://beam.pro/img/raccoon.png');
+        background-size: 16px 11px;
+        background-image: url('https://beam.pro/img/chat/icons/developers.png');
+        background-position-x: 4px;
+        background-position-y: 10px;
 
         .message-author {
             background: none;
             padding-left: 11px;
             padding-right: 6px;
             margin-right: 0;
+
+            .message-icon {
+                display: none;
+            }
         }
     }
 

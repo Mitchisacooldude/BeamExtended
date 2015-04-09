@@ -23,14 +23,19 @@
 
     .message-role-Developer {
         padding-left: 11px;
-        background-size: 18px 18px;
-        background-image: url('https://beam.pro/img/raccoon.png');
+        background-size: 18px 14px;
+        background-image: url('https://beam.pro/img/chat/icons/developers.png');
+        background-position: 0 10px;
 
         .message-author {
             background: none;
             padding-left: 11px;
             padding-right: 6px;
             margin-right: 0;
+
+            .message-icon {
+                display: none;
+            }
         }
     }
 
