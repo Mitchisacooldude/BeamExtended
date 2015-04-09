@@ -1,5 +1,8 @@
 [{
+    "emote": "WBGS",
+    "image_id": 1
+}, {
     "emote": "Trucker",
-    "image_id": 1,
+    "image_id": 2,
     "image_ext": "jpg"
 }]
