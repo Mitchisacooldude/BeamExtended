@@ -661,30 +661,26 @@ BeamExtended = function() {
             return;
         }
 
-        var i, _msgRoles = $authorTooltip.text().split(',');
+        var i, $roles = $authorTooltip.find('.text-role');
 
-        for (i in _msgRoles) {
-            if (_msgRoles.hasOwnProperty(i)) {
-                _msgRoles[i] = _msgRoles[i].trim();
+        $roles.each(function() {
+            if ($(this).text().toLowerCase() == 'user') {
+                $(this).remove();
             }
-        }
-
-        if (_msgRoles.indexOf('User') > -1) {
-            _msgRoles.splice(_msgRoles.indexOf('User'), 1);
-        }
+        });
 
         // Check for special roles
         for (i in roles) {
             if (!roles.hasOwnProperty(i)) continue;
             if (roles[i].users.indexOf(messageAuthor) > -1) {
-                _msgRoles.push(roles[i].title);
+                $authorTooltip.append(
+                    $('<span>').addClass('text-role text-role-' + roles[i].class).text(roles[i].title)
+                );
                 $this.addClass('message-role-' + roles[i].class);
             }
         }
 
-        if (_msgRoles.length > 0) {
-            $authorTooltip.text(_msgRoles.join(', '));
-        } else {
+        if ($authorTooltip.find('.text-role').length < 1) {
             $authorTooltip.remove();
         }
 
