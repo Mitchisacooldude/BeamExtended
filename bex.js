@@ -88,7 +88,7 @@ BeamExtended = function() {
     var rootURL = $rootMeta.length > 0 ? $rootMeta.attr('content') : 'https://exudev.ca/BEx/';
 
     var pathname = window.location.pathname;
-    var channel = pathname.toLowerCase().replace("/", "");
+    var channel = pathname.toLowerCase().replace('/', '').replace('embed/chat/', '');
 
     /**
      * Get the current stylesheet design
