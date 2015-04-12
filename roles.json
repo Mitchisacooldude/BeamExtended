@@ -34,7 +34,8 @@
             "popskyy",
             "mradder",
             "exuviax",
-            "mrsluclin"
+            "mrsluclin",
+            "mitchellisacooldude"
         ]
     },
     {
@@ -123,7 +124,7 @@
     },
     {
         "class": "BExIFStaff",
-        "title": null,
+        "title": "IFStudios Staff",
         "users": [
             "exuviax",
             "ifstudios",
