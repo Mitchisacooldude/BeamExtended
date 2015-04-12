@@ -1,4 +1,5 @@
 @import "index";
+
 .exu-emote {
     margin-bottom: -10px;
     margin-top: -10px;
@@ -85,9 +86,16 @@
             background-image: $BExDevImage;
         }
     }
-    .message-role-BExDonator {
+    .message-role-BExLegacyDonator {
         .message-author {
             color: $BExDonatorColor;
+            text-shadow: 0 0 13px rgba(255, 255, 255, 1);
+            display: inline;
+            position: relative;
+        }
+    }
+    .message-role-BExDonator {
+        .message-author {
             text-shadow: 0 0 13px rgba(255, 255, 255, 1);
             display: inline;
             position: relative;
@@ -123,7 +131,7 @@
     .message-role-BExPlayerDotMe,
     .message-role-BExFamilyStrong,
     .message-role-BExVG {
-            .message-author {
+        .message-author {
             padding-left: 22px;
             padding-bottom: 1px;
             background-repeat: no-repeat;

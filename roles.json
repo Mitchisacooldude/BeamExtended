@@ -13,8 +13,8 @@
         ]
     },
     {
-        "class": "BExDonator",
-        "title": "BEx Donator",
+        "class": "BExLegacyDonator",
+        "title": "BEx Legacy Donator",
         "users": [
             "trevin",
             "nate",
@@ -34,7 +34,13 @@
             "popskyy",
             "mradder",
             "exuviax",
-            "mrsluclin",
+            "mrsluclin"
+        ]
+    },
+    {
+        "class": "BExDonator",
+        "title": "BEx Donator",
+        "users": [
             "mitchellisacooldude"
         ]
     },
